@@ -1,6 +1,6 @@
 [package]
 name = "starship"
-version = "1.12.0"
+version = "1.22.1"
 authors = ["Starship Contributors"]
 build = "build.rs"
 categories = ["command-line-utilities"]
@@ -15,7 +15,7 @@ include = [
   "build.rs",
   "LICENSE",
   "/README.md",
-  "docs/.vuepress/public/presets/toml/",
+  "docs/public/presets/toml/",
   ".github/config-schema.json",
 ]
 keywords = ["prompt", "shell", "bash", "fish", "zsh"]
@@ -23,88 +23,88 @@ license = "ISC"
 readme = "README.md"
 repository = "https://github.com/starship/starship"
 # Note: MSRV is only intended as a hint, and only the latest version is officially supported in starship.
-rust-version = "1.64"
+rust-version = "1.80"
 description = """
 The minimal, blazing-fast, and infinitely customizable prompt for any shell! ☄🌌️
 """
 
 [features]
-default = ["battery", "notify", "git-repository-max-perf"]
+default = ["battery", "notify", "gix-max-perf"]
 battery = ["starship-battery"]
 config-schema = ["schemars"]
 notify = ["notify-rust"]
 
-# Enables most of the `max-performace` features of the `git_repository` module for better performance.
+# Enables most of the `max-performance` features of the `gix` module for better performance.
 # This can be more difficult to build in some conditions and requires cmake.
-git-repository-max-perf = ["git-features/zlib-ng", "git-repository/fast-sha1"]
+gix-max-perf = ["gix-features/zlib-ng", "gix/fast-sha1"]
 # Slower than `git-repository-max-perf`, but better than the default.
 # Unlike `git-repository-max-perf` this does not require cmake and allows dynamic zlib linking.
-git-repository-faster = ["git-features/zlib-stock", "git-repository/fast-sha1"]
+gix-faster = ["gix-features/zlib-stock", "gix/fast-sha1"]
 
 [dependencies]
-chrono = { version = "0.4.23", features = ["clock", "std"] }
-clap = { version = "4.0.29", features = ["derive", "cargo", "unicode"] }
-clap_complete = "4.0.6"
-dirs-next = "2.0.0"
-dunce = "1.0.3"
-gethostname = "0.4.1"
-git-features = { version = "0.24.1", optional = true }
+chrono = { version = "0.4.39", default-features = false, features = ["clock", "std", "wasmbind"] }
+clap = { version = "4.5.27", features = ["derive", "cargo", "unicode"] }
+clap_complete = "4.5.42"
+dirs = "6.0.0"
+dunce = "1.0.5"
 # default feature restriction addresses https://github.com/starship/starship/issues/4251
-git-repository = { version = "0.29.0", default-features = false, features = ["max-performance-safe"] }
-indexmap = { version = "1.9.2", features = ["serde"] }
-log = { version = "0.4.17", features = ["std"] }
-# nofity-rust is optional (on by default) because the crate doesn't currently build for darwin with nix
+gix = { version = "0.70.0", default-features = false, features = ["max-performance-safe", "revision"] }
+gix-features = { version = "0.40.0", optional = true }
+indexmap = { version = "2.7.1", features = ["serde"] }
+log = { version = "0.4.25", features = ["std"] }
+# notify-rust is optional (on by default) because the crate doesn't currently build for darwin with nix
 # see: https://github.com/NixOS/nixpkgs/issues/160876
-notify-rust = { version = "4.6.0", optional = true }
-nu-ansi-term = "0.46.0"
-once_cell = "1.16.0"
-open = "3.2.0"
+notify-rust = { version = "4.11.4", optional = true }
+nu-ansi-term = "0.50.1"
+open = "5.3.2"
 # update os module config and tests when upgrading os_info
-os_info = "3.5.1"
+os_info = "3.9.2"
 path-slash = "0.2.1"
-pest = "2.5.1"
-pest_derive = "2.5.1"
-quick-xml = "0.26.0"
+pest = "2.7.15"
+pest_derive = "2.7.15"
+process_control = "5.0.0"
+quick-xml = "0.37.2"
 rand = "0.8.5"
-rayon = "1.6.1"
-regex = "1.7.0"
-rust-ini = "0.18.0"
-semver = "1.0.14"
-serde = { version = "1.0.150", features = ["derive"] }
-serde_json = "1.0.89"
-sha1 = "0.10.5"
-shadow-rs = { version = "0.19.0", default-features = false }
+rayon = "1.10.0"
+regex = { version = "1.11.1", default-features = false, features = ["perf", "std", "unicode-perl"] }
+rust-ini = "0.21.1"
+semver = "1.0.25"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.137"
+sha1 = "0.10.6"
+shadow-rs = { version = "0.37.0", default-features = false }
 # battery is optional (on by default) because the crate doesn't currently build for Termux
 # see: https://github.com/svartalf/rust-battery/issues/33
-starship-battery = { version = "0.7.9", optional = true }
-strsim = "0.10.0"
-systemstat = "=0.2.2"
-terminal_size = "0.2.3"
-toml = { version = "0.5.10", features = ["preserve_order"] }
-toml_edit = "0.15.0"
-unicode-segmentation = "1.10.0"
-unicode-width = "0.1.10"
-urlencoding = "2.1.2"
-versions = "4.1.0"
-which = "4.3.0"
-yaml-rust = "0.4.5"
+starship-battery = { version = "0.10.0", optional = true }
+strsim = "0.11.1"
+systemstat = "=0.2.4"
+terminal_size = "0.4.1"
+toml = { version = "0.8.19", features = ["preserve_order"] }
+toml_edit = "0.22.22"
+unicode-segmentation = "1.12.0"
+unicode-width = "0.2.0"
+urlencoding = "2.1.3"
+versions = "6.3.2"
+which = "7.0.1"
+whoami = { version = "1.5.2", default-features = false }
+yaml-rust2 = "0.9.0"
 
-process_control = { version = "4.0.0", features = ["crossbeam-channel"] }
-
-guess_host_triple = "0.1.3"
-home = "0.5.4"
+guess_host_triple = "0.1.4"
+home = "0.5.11"
+# Temporary workaround for https://github.com/rust-lang/libz-sys/issues/225
+libz-ng-sys = { version = "<1.1.20", optional = true }
 shell-words = "1.1.0"
 
 [dependencies.schemars]
-version = "0.8.11"
+version = "0.8.21"
 optional = true
-features = ["preserve_order", "indexmap"]
+features = ["preserve_order", "indexmap2"]
 
 [target.'cfg(windows)'.dependencies]
 deelevate = "0.2.0"
 
 [target.'cfg(windows)'.dependencies.windows]
-version = "0.43.0"
+version = "0.59.0"
 features = [
   "Win32_Foundation",
   "Win32_UI_Shell",
@@ -114,18 +114,18 @@ features = [
 ]
 
 [target.'cfg(not(windows))'.dependencies]
-nix = { version = "0.26.1", default-features = false, features = ["feature", "fs", "user"] }
+nix = { version = "0.29.0", default-features = false, features = ["feature", "fs", "user"] }
 
 [build-dependencies]
-shadow-rs = { version = "0.19.0", default-features = false }
-dunce = "1.0.3"
+shadow-rs = { version = "0.37.0", default-features = false }
+dunce = "1.0.5"
 
 [target.'cfg(windows)'.build-dependencies]
 winres = "0.1.12"
 
 [dev-dependencies]
-mockall = "0.11"
-tempfile = "3.3.0"
+mockall = "0.13.1"
+tempfile = "3.15.0"
 
 [profile.release]
 codegen-units = 1

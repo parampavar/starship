@@ -18,7 +18,7 @@ pub struct JavaConfig<'a> {
     pub detect_folders: Vec<&'a str>,
 }
 
-impl<'a> Default for JavaConfig<'a> {
+impl Default for JavaConfig<'_> {
     fn default() -> Self {
         JavaConfig {
             format: "via [$symbol($version )]($style)",
@@ -35,6 +35,7 @@ impl<'a> Default for JavaConfig<'a> {
                 "deps.edn",
                 "project.clj",
                 "build.boot",
+                ".sdkmanrc",
             ],
             detect_folders: vec![],
         }

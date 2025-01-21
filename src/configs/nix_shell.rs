@@ -13,13 +13,15 @@ pub struct NixShellConfig<'a> {
     pub style: &'a str,
     pub impure_msg: &'a str,
     pub pure_msg: &'a str,
+    pub unknown_msg: &'a str,
     pub disabled: bool,
+    pub heuristic: bool,
 }
 
 /* The trailing double spaces in `symbol` are needed to work around issues with
 multiwidth emoji support in some shells. Please do not file a PR to change this
 unless you can show that your changes do not affect this workaround.  */
-impl<'a> Default for NixShellConfig<'a> {
+impl Default for NixShellConfig<'_> {
     fn default() -> Self {
         NixShellConfig {
             format: "via [$symbol$state( \\($name\\))]($style) ",
@@ -27,7 +29,9 @@ impl<'a> Default for NixShellConfig<'a> {
             style: "bold blue",
             impure_msg: "impure",
             pure_msg: "pure",
+            unknown_msg: "",
             disabled: false,
+            heuristic: false,
         }
     }
 }

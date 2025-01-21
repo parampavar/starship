@@ -15,9 +15,10 @@ pub struct GcloudConfig<'a> {
     pub disabled: bool,
     pub region_aliases: HashMap<String, &'a str>,
     pub project_aliases: HashMap<String, &'a str>,
+    pub detect_env_vars: Vec<&'a str>,
 }
 
-impl<'a> Default for GcloudConfig<'a> {
+impl Default for GcloudConfig<'_> {
     fn default() -> Self {
         GcloudConfig {
             format: "on [$symbol$account(@$domain)(\\($region\\))]($style) ",
@@ -26,6 +27,7 @@ impl<'a> Default for GcloudConfig<'a> {
             disabled: false,
             region_aliases: HashMap::new(),
             project_aliases: HashMap::new(),
+            detect_env_vars: vec![],
         }
     }
 }

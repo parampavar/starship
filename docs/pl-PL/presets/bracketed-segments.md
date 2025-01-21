@@ -1,17 +1,17 @@
-[Return to Presets](./README.md#bracketed-segments)
+[Powrót do ustawień predefiniowanych](./#bracketed-segments)
 
-# Bracketed Segments Preset
+# Ustawienia modułów w nawiasach kwadratowych
 
 Ta konfiguracja zmienia format wyświetlania wbudowanych modułów - zamiast domyślnych wyrazów ("via", "on", itp.) są wypisywane w nawiasach kwadratowych.
 
-![Screenshot of Bracketed Segments preset](/presets/img/bracketed-segments.png)
+![Zrzut ekranu ustawień "Moduły w nawiasach kwadratowych"](/presets/img/bracketed-segments.png)
 
 ### Konfiguracja
 
 ```sh
-starship preset bracketed-segments > ~/.config/starship.toml
+starship preset bracketed-segments -o ~/.config/starship.toml
 ```
 
-[Click to download TOML](/presets/toml/bracketed-segments.toml)
+[Click to download TOML](/presets/toml/bracketed-segments.toml){download}
 
-<<< @/.vuepress/public/presets/toml/bracketed-segments.toml
+<<< @/public/presets/toml/bracketed-segments.toml

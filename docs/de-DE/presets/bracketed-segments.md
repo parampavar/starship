@@ -1,4 +1,4 @@
-[Zurück zu den Voreinstellungen](./README.md#bracketed-segments)
+[Zurück zu den Voreinstellungen](./#bracketed-segments)
 
 # Bracketed Segments Preset
 
@@ -9,9 +9,9 @@ This preset changes the format of all the built-in modules to show their segment
 ### Konfiguration
 
 ```sh
-starship preset bracketed-segments > ~/.config/starship.toml
+starship preset bracketed-segments -o ~/.config/starship.toml
 ```
 
-[Zum Herunterladen der TOML Datei klicken](/presets/toml/bracketed-segments.toml)
+[Click to download TOML](/presets/toml/bracketed-segments.toml){download}
 
-<<< @/.vuepress/public/presets/toml/bracketed-segments.toml
+<<< @/public/presets/toml/bracketed-segments.toml

@@ -1,61 +1,77 @@
-# Предустановки
+# Пресеты
 
-Ниже приведена коллекция предустановок конфигураций сообщества для Starship. Если вы хотите поделиться своей предустановкой, пожалуйста, [создайте PR](https://github.com/starship/starship/edit/master/docs/presets/README.md), обновляя этот файл! 😊
+Ниже представлена коллекция пресетов для Starship, созданных сообществом. Если у вас есть пресет, которым вы хотите поделиться, пожалуйста, [отправьте PR](https://github.com/starship/starship/edit/master/docs/presets/README.md) для обновления этого файла! 😊
 
-To get details on how to use a preset, simply click on the image.
+Чтобы получить подробную информацию о том, как использовать тот или иной пресет, просто щелкните на его изображение.
 
-## [Символы Шрифта Nerd Font](./nerd-font.md)
+## [Nerd Font Symbols](./nerd-font.md)
 
-This preset changes the symbols for each module to use Nerd Font symbols.
+Этот пресет изменяет символы для каждого модуля на символы Nerd Font.
 
-[![Скриншот предустановки Nerd Font Symbols](/presets/img/nerd-font-symbols.png "Click to view Nerd Font Symbols preset")](./nerd-font)
+[![Скриншот пресета Nerd Font Symbols](/presets/img/nerd-font-symbols.png "Нажмите, чтобы просмотреть пресет Nerd Font Symbols")](./nerd-font)
 
 ## [No Nerd Fonts](./no-nerd-font.md)
 
-This preset changes the symbols for several modules so that no Nerd Font symbols are used anywhere in the prompt.
+Этот пресет изменяет символы для нескольких модулей таким образом, чтобы в приглашении командной строки нигде не использовались символы Nerd Font.
 
-::: tip This preset will become the default preset [in a future release of starship](https://github.com/starship/starship/pull/3544). :::
+::: tip
 
-[Click to view No Nerd Font preset](./no-nerd-font)
+Этот пресет станет пресетом по умолчанию [в будущем релизе starship](https://github.com/starship/starship/pull/3544).
+
+:::
+
+[Нажмите, чтобы просмотреть пресет No Nerd Font](./no-nerd-font)
 
 ## [Bracketed Segments](./bracketed-segments.md)
 
-This preset changes the format of all the built-in modules to show their segment in brackets instead of using the default Starship wording ("via", "on", etc.).
+Шаблон изменяет формат всех встроенных модулей для показа их сегментов в скобках вместо использования стандартных в Starship слов ("via", "on", и т. д.).
 
-[![Screenshot of Bracketed Segments preset](/presets/img/bracketed-segments.png "Click to view Bracketed Segments preset")](./bracketed-segments)
+[![Скриншот пресета Bracketed Segments](/presets/img/bracketed-segments.png "Нажмите, чтобы просмотреть пресет Bracketed Segments")](./bracketed-segments)
 
 ## [Plain Text Symbols](./plain-text.md)
 
-This preset changes the symbols for each module into plain text. Great if you don't have access to Unicode.
+Этот пресет изменяет символы для каждого модуля на обычный текст. Отлично подходит, если у вас нет возможности использовать Unicode.
 
-[![Screenshot of Plain Text Symbols preset](/presets/img/plain-text-symbols.png "Click to view Plain Text Symbols preset")](./plain-text)
+[![Скриншот пресета Plain Text Symbols](/presets/img/plain-text-symbols.png "Нажмите, чтобы просмотреть пресет Plain Text Symbols")](./plain-text)
 
 ## [No Runtime Versions](./no-runtimes.md)
 
-This preset hides the version of language runtimes. If you work in containers or virtualized environments, this one is for you!
+Этот пресет скрывает версии сред выполнения языков программирования. Если вы работаете с контейнерами или виртуализированными средами, то этот пресет для вас!
 
-[![Screenshot of Hide Runtime Versions preset](/presets/img/no-runtime-versions.png "Click to view No Runtime Versions preset")](./no-runtimes)
+[![Скриншот пресета Hide Runtime Versions](/presets/img/no-runtime-versions.png "Нажмите, чтобы просмотреть пресет No Runtime Versions")](./no-runtimes)
 
 ## [No Empty Icons](./no-empty-icons.md)
 
-This preset does not show icons if the toolset is not found.
+Этот пресет не отображает иконки, если набор инструментов не найден.
 
-[![Screenshot of No Empty Icons preset](/presets/img/no-empty-icons.png "Click to view No Runtime Versions preset")](./no-empty-icons.md)
+[![Скриншот пресета No Empty Icons](/presets/img/no-empty-icons.png "Нажмите, чтобы просмотреть пресет No Runtime Versions")](./no-empty-icons.md)
 
 ## [Pure Prompt](./pure-preset.md)
 
-This preset emulates the look and behavior of [Pure](https://github.com/sindresorhus/pure).
+Этот пресет имитирует внешний вид и поведение [Pure](https://github.com/sindresorhus/pure).
 
-[![Screenshot of Pure preset](/presets/img/pure-preset.png "Click to view Pure Prompt preset")](./pure-preset)
+[![Скриншот пресета Pure](/presets/img/pure-preset.png "Нажмите, чтобы просмотреть пресет Pure Prompt")](./pure-preset)
 
 ## [Pastel Powerline](./pastel-powerline.md)
 
-This preset is inspired by [M365Princess](https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/M365Princess.omp.json). It also shows how path substitution works in starship.
+Эта пресет вдохновлен [M365Princess](https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/M365Princess.omp.json). В нем также показано, как работает замена пути в starship.
 
-[![Screenshot of Pastel Powerline preset](/presets/img/pastel-powerline.png "Click to view Pure Prompt preset")](./pastel-powerline)
+[![Скриншот пресета Pastel Powerline](/presets/img/pastel-powerline.png "Нажмите, чтобы просмотреть пресет Pure Prompt")](./pastel-powerline)
 
 ## [Tokyo Night](./tokyo-night.md)
 
-This preset is inspired by [tokyo-night-vscode-theme](https://github.com/enkia/tokyo-night-vscode-theme).
+Этот пресет вдохновлен [tokyo-night-vscode-theme](https://github.com/enkia/tokyo-night-vscode-theme).
 
-[![Screenshot of Tokyo Night preset](/presets/img/tokyo-night.png "Click to view Tokyo Night preset")](./tokyo-night)
+[![Скриншот пресета Tokyo Night](/presets/img/tokyo-night.png "Нажмите, чтобы просмотреть пресет Tokyo Night")](./tokyo-night)
+
+## [Gruvbox Rainbow](./gruvbox-rainbow.md)
+
+Этот пресет в значительной степени вдохновлен [Pastel Powerline](./pastel-powerline.md) и [Tokyo Night](./tokyo-night.md).
+
+[![Скриншот пресета Gruvbox Rainbow](/presets/img/gruvbox-rainbow.png "Нажмите, чтобы просмотреть пресет Gruvbox Rainbow")](./gruvbox-rainbow)
+
+## [Jetpack](./jetpack.md)
+
+Это псевдоминималистичный пресет, вдохновленный приглашениями командной оболочки [geometry](https://github.com/geometry-zsh/geometry) и [spaceship](https://github.com/spaceship-prompt/spaceship-prompt).
+
+[![Скриншот пресета Jetpack](/presets/img/jetpack.png "Нажмите, чтобы просмотреть пресет Jetpack")](./jetpack)

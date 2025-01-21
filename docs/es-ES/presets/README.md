@@ -14,7 +14,11 @@ Este preajuste cambia los símbolos de cada módulo para usar símbolos Nerd Fon
 
 This preset changes the symbols for several modules so that no Nerd Font symbols are used anywhere in the prompt.
 
-::: tip This preset will become the default preset [in a future release of starship](https://github.com/starship/starship/pull/3544). :::
+::: tip
+
+This preset will become the default preset [in a future release of starship](https://github.com/starship/starship/pull/3544).
+
+:::
 
 [Click to view No Nerd Font preset](./no-nerd-font)
 
@@ -52,10 +56,22 @@ Esta preajuste emula la apariencia y el comportamiento de [Pure](https://github.
 
 Este preajuste está inspirado en [M365Princess](https://github.com/JanDeDobbeleer/oh-my-posh/blob/main/themes/M365Princess.omp.json). También muestra cómo funciona la sustitución de rutas en Starship.
 
-[![Captura de pantalla del preajuste Pastel Powerline](/presets/img/pastel-powerline.png "Haga clic para ver el preajuste del Prompt de Pure")](./pastel-powerline)
+[![Captura de pantalla del preajuste de Pastel Powerline](/presets/img/pastel-powerline.png "Haga clic para ver el preajuste del Prompt de Pure")](./pastel-powerline)
 
 ## [Tokyo Night](./tokyo-night.md)
 
-This preset is inspired by [tokyo-night-vscode-theme](https://github.com/enkia/tokyo-night-vscode-theme).
+Este preset está inspirado en [tokyo-night-vscode-theme](https://github.com/enkia/tokyo-night-vscode-theme).
 
-[![Screenshot of Tokyo Night preset](/presets/img/tokyo-night.png "Click to view Tokyo Night preset")](./tokyo-night)
+[![Captura del preset de Tokyo Night](/presets/img/tokyo-night.png "Click to view Tokyo Night preset")](./tokyo-night)
+
+## [Gruvbox Rainbow](./gruvbox-rainbow.md)
+
+Este preajuste está muy inspirado en [Pastel Powerline](./pastel-powerline.md) y [Tokyo Night](./tokyo-night.md).
+
+[![Captura de pantalla de el preajuste Gruvbox Rainbow](/presets/img/gruvbox-rainbow.png "Clic para ver el preajuste Gruvbox Rainbow")](./gruvbox-rainbow)
+
+## [Jetpack](./jetpack.md)
+
+Este es un preajuste pseudominimalista inspirado en las indicaciones [geometría](https://github.com/geometry-zsh/geometry) y [nave espacial](https://github.com/spaceship-prompt/spaceship-prompt).
+
+[![Captura de pantalla del preajuste Jetpack](/presets/img/jetpack.png "Click to view Jetpack preset")](./jetpack)

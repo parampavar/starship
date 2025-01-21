@@ -2,15 +2,15 @@
   <img
     width="400"
     src="https://raw.githubusercontent.com/starship/starship/master/media/logo.png"
-    alt="Starship – Cross-shell prompt"
+    alt="Starship – Çapraz kabuk istemcisi"
  />
 </p>
 
 <p align="center">
   <a href="https://github.com/starship/starship/actions"
     ><img
-      src="https://img.shields.io/github/workflow/status/starship/starship/Main workflow/master?label=workflow&style=flat-square"
-      alt="GitHub Actions workflow status"
+      src="https://img.shields.io/github/actions/workflow/status/starship/starship/workflow.yml?branch=master&label=workflow&style=flat-square"
+      alt="Github Actions iş akışı statüsü"
  /></a>
   <a href="https://crates.io/crates/starship"
     ><img
@@ -20,7 +20,7 @@
   <a href="https://repology.org/project/starship/versions"
     ><img
       src="https://img.shields.io/repology/repositories/starship?label=in%20repositories&style=flat-square"
-      alt="Packaging status" /></a
+      alt="Paketleme statüsü" /></a
 ><br />
   <a href="https://discord.gg/starship"
     ><img
@@ -32,10 +32,15 @@
       src="https://img.shields.io/badge/twitter-@StarshipPrompt-1DA1F3?style=flat-square"
       alt="@StarshipPrompt'u Twitter'da takip edin"
  /></a>
+  <a href="https://stand-with-ukraine.pp.ua"
+    ><img
+      src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraineFlat.svg"
+      alt="Ukrayna'ya Destek Ol"
+ /></a>
 </p>
 
 <p align="center">
-  <a href="https://starship.rs">Website</a>
+  <a href="https://starship.rs">İnternet sitesi</a>
   ·
   <a href="#🚀-installation">Kurulum</a>
   ·
@@ -115,6 +120,14 @@
  /></a>
   &nbsp;
   <a
+    href="https://github.com/starship/starship/blob/master/docs/uk-UA/guide/README.md"
+    ><img
+      height="20"
+      src="https://raw.githubusercontent.com/starship/starship/master/media/flag-ua.png"
+      alt="Українська"
+ /></a>
+  &nbsp;
+  <a
     href="https://github.com/starship/starship/blob/master/docs/vi-VN/guide/README.md"
     ><img
       height="20"
@@ -138,8 +151,6 @@
       alt="Geleneksel Çince"
  /></a>
 </p>
-
-[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
 
 <h1></h1>
 
@@ -169,7 +180,7 @@
 
 ### Ön koşullar
 
-- [Nerd Font](https://www.nerdfonts.com/) kurulu ve terminalinizde kullanılıyor olmalı (başlarken [Fira Code Nerd Font](https://www.nerdfonts.com/font-downloads)'u deneyebilirsiniz).
+- [Nerd Font](https://www.nerdfonts.com/) kurulu ve terminalinizde kullanılıyor olmalı (örnek: [Fira Code Nerd Font](https://www.nerdfonts.com/font-downloads)'u deneyebilirsiniz).
 
 ### 1. Adım Starship'i Kur
 
@@ -210,19 +221,19 @@ curl -sS https://starship.rs/install.sh | sh
 
 Alternatif olarak aşağıdaki paket yöneticileri ile de Starship'i yükleyebilirsiniz:
 
-| Dağıtım                    | Depo                                                                                            | Talimatlar                                                                     |
-| -------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| **_Herhangi bir dağıtım_** | **[crates.io](https://crates.io/crates/starship)**                                              | `cargo install starship --locked`                                              |
-| _Herhangi bir dağıtım_     | [conda-forge](https://anaconda.org/conda-forge/starship)                                        | `conda install -c conda-forge starship`                                        |
-| _Herhangi bir dağıtım_     | [Linuxbrew](https://formulae.brew.sh/formula/starship)                                          | `brew install starship`                                                        |
-| _Herhangi bir dağıtım_     | [Snapcraft](https://snapcraft.io/starship)                                                      | `snap install starship`                                                        |
-| Alpine Linux 3.13+         | [Alpine Linux Packages](https://pkgs.alpinelinux.org/packages?name=starship)                    | `apk add starship`                                                             |
-| Arch Linux                 | [Arch Linux Community](https://archlinux.org/packages/community/x86_64/starship)                | `pacman -S starship`                                                           |
-| CentOS 7+                  | [Copr](https://copr.fedorainfracloud.org/coprs/atim/starship)                                   | `dnf copr enable atim/starship` <br /> `dnf install starship` |
-| Gentoo                     | [Gentoo Packages](https://packages.gentoo.org/packages/app-shells/starship)                     | `emerge app-shells/starship`                                                   |
-| Manjaro                    |                                                                                                 | `pacman -S starship`                                                           |
-| NixOS                      | [nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/starship/default.nix)    | `nix-env -iA nixpkgs.starship`                                                 |
-| Void Linux                 | [Void Linux Packages](https://github.com/void-linux/void-packages/tree/master/srcpkgs/starship) | `xbps-install -S starship`                                                     |
+| Dağıtım                    | Depo                                                                                             | Talimatlar                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| **_Herhangi bir dağıtım_** | **[crates.io](https://crates.io/crates/starship)**                                               | `cargo install starship --locked`                                              |
+| _Herhangi bir dağıtım_     | [conda-forge](https://anaconda.org/conda-forge/starship)                                         | `conda install -c conda-forge starship`                                        |
+| _Herhangi bir dağıtım_     | [Linuxbrew](https://formulae.brew.sh/formula/starship)                                           | `brew install starship`                                                        |
+| Alpine Linux 3.13+         | [Alpine Linux Paketleri](https://pkgs.alpinelinux.org/packages?name=starship)                    | `apk add starship`                                                             |
+| Arch Linux                 | [Arch Linux Extra](https://archlinux.org/packages/extra/x86_64/starship)                         | `pacman -S starship`                                                           |
+| CentOS 7+                  | [Copr](https://copr.fedorainfracloud.org/coprs/atim/starship)                                    | `dnf copr enable atim/starship` <br /> `dnf install starship` |
+| Gentoo                     | [Gentoo Paketleri](https://packages.gentoo.org/packages/app-shells/starship)                     | `emerge app-shells/starship`                                                   |
+| Manjaro                    |                                                                                                  | `pacman -S starship`                                                           |
+| NixOS                      | [nixpkgs](https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/misc/starship/default.nix)     | `nix-env -iA nixpkgs.starship`                                                 |
+| openSUSE                   | [OSS](https://software.opensuse.org/package/starship)                                            | `zypper in starship`                                                           |
+| Void Linux                 | [Void Linux Paketleri](https://github.com/void-linux/void-packages/tree/master/srcpkgs/starship) | `xbps-install -S starship`                                                     |
 
 </details>
 
@@ -263,9 +274,9 @@ Starship'i herhangi bir paket yöneticisi ile yükleyin:
 
 </details>
 
-### 2. Adım Shell'inizi Starship kullanmaya hazır hale getirin
+### 2. Adım Shellinizi Starshipi kurmaya hazır hale getirin
 
-Shell'ı starshiple çalışması için ayarla. Aşağıdaki listeden shell'inizi seçin:
+Shelli starship ile çalışması için ayarla. Aşağıdaki listeden Shellinizi seçin:
 
 <details>
 <summary>Bash</summary>
@@ -281,7 +292,7 @@ eval "$(starship init bash)"
 <details>
 <summary>Cmd</summary>
 
-Cmd ıle beraber [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) kullanmalısınız. `%LocalAppData%\clink\starship.lua` dosyasını belirtilen dizinde aşağıdaki kod içeriği olacak şekilde oluşturun:
+Cmd ile beraber [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) kullanmalısınız. `%LocalAppData%\clink\starship.lua` dosyasını belirtilen dizinde aşağıdaki kod içeriği olacak şekilde oluşturun:
 
 ```lua
 load(io.popen('starship init cmd'):read("*a"))()
@@ -327,20 +338,14 @@ eval $(starship init ion)
 <details>
 <summary>Nushell</summary>
 
-Nushell env dosyanızın sonuna aşağıdakileri ekleyin (Nushell'de `$nu.env-path` komutunu çalıştırarak bulabilirsiniz):
+Add the following to the end of your Nushell configuration (find it by running `$nu.config-path` in Nushell):
 
 ```sh
-mkdir ~/.cache/starship
-starship init nu | save ~/.cache/starship/init.nu
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 ```
 
-Aşağıdaki kodu Nushell ayarlarınızın (`$nu.config-path` komutu ile ulaşabilirsiniz) sonuna ekleyin:
-
-```sh
-source ~/.cache/starship/init.nu
-```
-
-Not: Nushell v0.61'tan sonraki sürümler desteklenmektedir
+Note: Only Nushell v0.96+ is supported
 
 </details>
 
@@ -410,19 +415,26 @@ Eğer starship'e katkıda bulunmak istiyorsanız lütfen [Katkı Kılavuzu](http
 
 Lütfen starship'in oluşmasında ilham kaynağı olan çalışmalara da göz atın. 🙏
 
-- **[denysdovhan/spaceship-prompt](https://github.com/denysdovhan/spaceship-prompt)** – A ZSH prompt for astronauts.
+- **[denysdovhan/spaceship-prompt](https://github.com/denysdovhan/spaceship-prompt)** – Astronotlar için bir ZSH istemcisi.
 
 - **[denysdovhan/robbyrussell-node](https://github.com/denysdovhan/robbyrussell-node)** - JavaScript ile yazılmış robbyrussell Cross-shell teması.
 
-- **[reujab/silver](https://github.com/reujab/silver)** – A cross-shell customizable powerline-like prompt with icons.
+- **[reujab/silver](https://github.com/reujab/silver)** – Poweline gibi, simgeler bulunduran, çapraz kabuk bir istemci.
 
-## ❤️ Sponsors
+## ❤️ Sponsorlar
 
-Support this project by [becoming a sponsor](https://github.com/sponsors/starship). Your name or logo will show up here with a link to your website.
+[Bir sponsor olarak](https://github.com/sponsors/starship) bu projeye destek ver. İsminiz veya logonuz bağlantınız ile beraber burda görünecek.
 
-**Supporter Tier**
+## 🔒 Code Signing Policy
 
-- [Dimension](https://dimension.dev/)
+Ücretsiz kod imzalama [SignPath.io](https://signpath.io) tarafından sağlanmıştır, sertifika [SignPath Foundation](https://signpath.org) tarafından sağlanmıştır.
+
+Code Signing Roles:
+
+- Reviewers: [Astronauts](https://github.com/orgs/starship/teams/astronauts)
+- Approvers and Authors: [Mission Control](https://github.com/orgs/starship/teams/mission-control)
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.
 
 <p align="center">
     <br>

@@ -12,17 +12,19 @@ pub struct ShLvlConfig<'a> {
     pub format: &'a str,
     pub symbol: &'a str,
     pub repeat: bool,
+    pub repeat_offset: u64,
     pub style: &'a str,
     pub disabled: bool,
 }
 
-impl<'a> Default for ShLvlConfig<'a> {
+impl Default for ShLvlConfig<'_> {
     fn default() -> Self {
         ShLvlConfig {
             threshold: 2,
             format: "[$symbol$shlvl]($style) ",
             symbol: "↕️  ", // extra space for emoji
             repeat: false,
+            repeat_offset: 0,
             style: "bold yellow",
             disabled: true,
         }

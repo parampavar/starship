@@ -1,4 +1,4 @@
-[プリセット一覧に戻る](./README.md#pure)
+[プリセット一覧に戻る](./#pure)
 
 # Pureプリセット
 
@@ -9,9 +9,9 @@
 ### 設定
 
 ```sh
-starship preset pure-preset > ~/.config/starship.toml
+starship preset pure-preset -o ~/.config/starship.toml
 ```
 
-[クリックしてTOMLをダウンロード](/presets/toml/pure-preset.toml)
+[Click to download TOML](/presets/toml/pure-preset.toml){download}
 
-<<< @/.vuepress/public/presets/toml/pure-preset.toml
+<<< @/public/presets/toml/pure-preset.toml

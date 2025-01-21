@@ -1,4 +1,4 @@
-[返回全部预设](./README.md#no-runtime-versions)
+[返回全部预设](./#no-runtime-versions)
 
 # No Runtime Versions Preset
 
@@ -9,9 +9,9 @@
 ### 配置
 
 ```sh
-starship preset no-runtime-versions > ~/.config/starship.toml
+starship preset no-runtime-versions -o ~/.config/starship.toml
 ```
 
-[点击下载 TOML 文件](/presets/toml/no-runtime-versions.toml)
+[Click to download TOML](/presets/toml/no-runtime-versions.toml){download}
 
-<<< @/.vuepress/public/presets/toml/no-runtime-versions.toml
+<<< @/public/presets/toml/no-runtime-versions.toml

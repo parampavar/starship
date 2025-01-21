@@ -9,11 +9,19 @@
         "workarounds:all",
         // automerge minor updates
         ":automergeMinor",
+        ":automergeBranch"
     ],
     "labels": ["📦 dependencies"],
     "semanticCommits": "enabled",
     "semanticCommitType": "build",
     "rangeStrategy": "bump",
+    "rebaseWhen": "conflicted",
+    "lockFileMaintenance": {
+        "enabled": true,
+        "extends": ["schedule:weekly"],
+        "groupName": "lockfile maintenance",
+        "automerge": true
+    },
     "packageRules": [
         // group updates to related packages
         {
@@ -24,7 +32,7 @@
         {
             "groupName": "gitoxide crates",
             "matchDatasources": ["crate"],
-            "matchPackagePrefixes": ["git"]
+            "matchPackagePrefixes": ["gix"]
         },
         {
             "groupName": "pest crates",
@@ -50,14 +58,6 @@
             "groupName": "npm",
             "matchDatasources": ["npm"],
             "extends": ["schedule:weekly"]
-        },
-        // Update (rust) lockfiles weekly
-        {
-            "matchDatasources": ["crate"],
-            "lockFileMaintenance": {
-                "enabled": true,
-                "extends": ["schedule:weekly"]
-            }
         }
     ],
     // custom regex update managers

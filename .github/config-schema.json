@@ -29,7 +29,8 @@
         "disabled": true,
         "format": "on [$symbol($subscription)]($style) ",
         "style": "blue bold",
-        "symbol": "ﴃ "
+        "subscription_aliases": {},
+        "symbol": "󰠅 "
       },
       "allOf": [
         {
@@ -39,9 +40,9 @@
     },
     "battery": {
       "default": {
-        "charging_symbol": " ",
+        "charging_symbol": "󰂄 ",
         "disabled": false,
-        "discharging_symbol": " ",
+        "discharging_symbol": "󰂃 ",
         "display": [
           {
             "charging_symbol": null,
@@ -50,10 +51,10 @@
             "threshold": 10
           }
         ],
-        "empty_symbol": " ",
+        "empty_symbol": "󰂎 ",
         "format": "[$symbol$percentage]($style) ",
-        "full_symbol": " ",
-        "unknown_symbol": " "
+        "full_symbol": "󰁹 ",
+        "unknown_symbol": "󰁽 "
       },
       "allOf": [
         {
@@ -86,6 +87,7 @@
       "default": {
         "detect_extensions": [],
         "detect_files": [
+          "bun.lock",
           "bun.lockb",
           "bunfig.toml"
         ],
@@ -93,7 +95,7 @@
         "disabled": false,
         "format": "via [$symbol($version )]($style)",
         "style": "bold red",
-        "symbol": "🍞 ",
+        "symbol": "🥟 ",
         "version_format": "v${raw}"
       },
       "allOf": [
@@ -310,6 +312,7 @@
         "detect_files": [
           "deno.json",
           "deno.jsonc",
+          "deno.lock",
           "mod.ts",
           "deps.ts",
           "mod.js",
@@ -350,6 +353,32 @@
       "allOf": [
         {
           "$ref": "#/definitions/DirectoryConfig"
+        }
+      ]
+    },
+    "direnv": {
+      "default": {
+        "allowed_msg": "allowed",
+        "denied_msg": "denied",
+        "detect_env_vars": [
+          "DIRENV_FILE"
+        ],
+        "detect_extensions": [],
+        "detect_files": [
+          ".envrc"
+        ],
+        "detect_folders": [],
+        "disabled": true,
+        "format": "[$symbol$loaded/$allowed]($style) ",
+        "loaded_msg": "loaded",
+        "not_allowed_msg": "not allowed",
+        "style": "bold bright-yellow",
+        "symbol": "direnv ",
+        "unloaded_msg": "not loaded"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/DirenvConfig"
         }
       ]
     },
@@ -473,6 +502,25 @@
         }
       ]
     },
+    "fennel": {
+      "default": {
+        "detect_extensions": [
+          "fnl"
+        ],
+        "detect_files": [],
+        "detect_folders": [],
+        "disabled": true,
+        "format": "via [$symbol($version )]($style)",
+        "style": "bold green",
+        "symbol": "🧅 ",
+        "version_format": "v${raw}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/FennelConfig"
+        }
+      ]
+    },
     "fill": {
       "default": {
         "disabled": false,
@@ -485,8 +533,38 @@
         }
       ]
     },
+    "fossil_branch": {
+      "default": {
+        "disabled": true,
+        "format": "on [$symbol$branch]($style) ",
+        "style": "bold purple",
+        "symbol": " ",
+        "truncation_length": 9223372036854775807,
+        "truncation_symbol": "…"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/FossilBranchConfig"
+        }
+      ]
+    },
+    "fossil_metrics": {
+      "default": {
+        "added_style": "bold green",
+        "deleted_style": "bold red",
+        "disabled": true,
+        "format": "([+$added]($added_style) )([-$deleted]($deleted_style) )",
+        "only_nonzero_diffs": true
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/FossilMetricsConfig"
+        }
+      ]
+    },
     "gcloud": {
       "default": {
+        "detect_env_vars": [],
         "disabled": false,
         "format": "on [$symbol$account(@$domain)(\\($region\\))]($style) ",
         "project_aliases": {},
@@ -541,6 +619,7 @@
         "deleted_style": "bold red",
         "disabled": true,
         "format": "([+$added]($added_style) )([-$deleted]($deleted_style) )",
+        "ignore_submodules": false,
         "only_nonzero_diffs": true
       },
       "allOf": [
@@ -583,12 +662,34 @@
         "staged": "+",
         "stashed": "\\$",
         "style": "red bold",
+        "typechanged": "",
         "untracked": "?",
         "up_to_date": ""
       },
       "allOf": [
         {
           "$ref": "#/definitions/GitStatusConfig"
+        }
+      ]
+    },
+    "gleam": {
+      "default": {
+        "detect_extensions": [
+          "gleam"
+        ],
+        "detect_files": [
+          "gleam.toml"
+        ],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "via [$symbol($version )]($style)",
+        "style": "bold #FFAFF3",
+        "symbol": "⭐ ",
+        "version_format": "v${raw}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/GleamConfig"
         }
       ]
     },
@@ -611,6 +712,7 @@
         ],
         "disabled": false,
         "format": "via [$symbol($version )]($style)",
+        "not_capable_style": "bold red",
         "style": "bold cyan",
         "symbol": "🐹 ",
         "version_format": "v${raw}"
@@ -618,6 +720,29 @@
       "allOf": [
         {
           "$ref": "#/definitions/GoConfig"
+        }
+      ]
+    },
+    "gradle": {
+      "default": {
+        "detect_extensions": [
+          "gradle",
+          "gradle.kts"
+        ],
+        "detect_files": [],
+        "detect_folders": [
+          "gradle"
+        ],
+        "disabled": false,
+        "format": "via [$symbol($version )]($style)",
+        "recursive": false,
+        "style": "bold bright-cyan",
+        "symbol": "🅶 ",
+        "version_format": "v${raw}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/GradleConfig"
         }
       ]
     },
@@ -708,7 +833,7 @@
     "hg_branch": {
       "default": {
         "disabled": true,
-        "format": "on [$symbol$branch]($style) ",
+        "format": "on [$symbol$branch(:$topic)]($style) ",
         "style": "bold purple",
         "symbol": " ",
         "truncation_length": 9223372036854775807,
@@ -722,6 +847,8 @@
     },
     "hostname": {
       "default": {
+        "aliases": {},
+        "detect_env_vars": [],
         "disabled": false,
         "format": "[$ssh_symbol$hostname]($style) in ",
         "ssh_only": true,
@@ -752,7 +879,8 @@
           ".java-version",
           "deps.edn",
           "project.clj",
-          "build.boot"
+          "build.boot",
+          ".sdkmanrc"
         ],
         "detect_folders": [],
         "disabled": false,
@@ -829,6 +957,8 @@
     "kubernetes": {
       "default": {
         "context_aliases": {},
+        "contexts": [],
+        "detect_env_vars": [],
         "detect_extensions": [],
         "detect_files": [],
         "detect_folders": [],
@@ -920,6 +1050,38 @@
         }
       ]
     },
+    "mojo": {
+      "default": {
+        "detect_extensions": [
+          "mojo",
+          "🔥"
+        ],
+        "detect_files": [],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "with [$symbol($version )]($style)",
+        "style": "bold 208",
+        "symbol": "🔥 "
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/MojoConfig"
+        }
+      ]
+    },
+    "nats": {
+      "default": {
+        "disabled": true,
+        "format": "[$symbol($name )]($style)",
+        "style": "bold purple",
+        "symbol": "✉️ "
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/NatsConfig"
+        }
+      ]
+    },
     "nim": {
       "default": {
         "detect_extensions": [
@@ -947,10 +1109,12 @@
       "default": {
         "disabled": false,
         "format": "via [$symbol$state( \\($name\\))]($style) ",
+        "heuristic": false,
         "impure_msg": "impure",
         "pure_msg": "pure",
         "style": "bold blue",
-        "symbol": "❄️  "
+        "symbol": "❄️  ",
+        "unknown_msg": ""
       },
       "allOf": [
         {
@@ -1023,6 +1187,25 @@
         }
       ]
     },
+    "odin": {
+      "default": {
+        "detect_extensions": [
+          "odin"
+        ],
+        "detect_files": [],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "via [$symbol($version )]($style)",
+        "show_commit": false,
+        "style": "bold bright-blue",
+        "symbol": "Ø "
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/OdinConfig"
+        }
+      ]
+    },
     "opa": {
       "default": {
         "detect_extensions": [
@@ -1061,10 +1244,15 @@
         "format": "[$symbol]($style)",
         "style": "bold white",
         "symbols": {
+          "AIX": "➿ ",
+          "AlmaLinux": "💠 ",
+          "Alpaquita": "🔔 ",
           "Alpine": "🏔️ ",
           "Amazon": "🙂 ",
           "Android": "🤖 ",
           "Arch": "🎗️ ",
+          "Artix": "🎗️ ",
+          "CachyOS": "🎗️ ",
           "CentOS": "💠 ",
           "Debian": "🌀 ",
           "DragonFly": "🐉 ",
@@ -1076,7 +1264,9 @@
           "Gentoo": "🗜️ ",
           "HardenedBSD": "🛡️ ",
           "Illumos": "🐦 ",
+          "Kali": "🐉 ",
           "Linux": "🐧 ",
+          "Mabox": "📦 ",
           "Macos": "🍎 ",
           "Manjaro": "🥭 ",
           "Mariner": "🌊 ",
@@ -1084,18 +1274,25 @@
           "Mint": "🌿 ",
           "NetBSD": "🚩 ",
           "NixOS": "❄️ ",
+          "Nobara": "🎩 ",
           "OpenBSD": "🐡 ",
+          "OpenCloudOS": "☁️ ",
           "OracleLinux": "🦴 ",
           "Pop": "🍭 ",
           "Raspbian": "🍓 ",
           "RedHatEnterprise": "🎩 ",
           "Redhat": "🎩 ",
           "Redox": "🧪 ",
+          "RockyLinux": "💠 ",
           "SUSE": "🦎 ",
           "Solus": "⛵ ",
           "Ubuntu": "🎯 ",
+          "Ultramarine": "🔷 ",
           "Unknown": "❓ ",
+          "Uos": "🐲 ",
+          "Void": "  ",
           "Windows": "🪟 ",
+          "openEuler": "🦉 ",
           "openSUSE": "🦎 "
         }
       },
@@ -1171,6 +1368,21 @@
         }
       ]
     },
+    "pijul_channel": {
+      "default": {
+        "disabled": true,
+        "format": "on [$symbol$channel]($style) ",
+        "style": "bold purple",
+        "symbol": " ",
+        "truncation_length": 9223372036854775807,
+        "truncation_symbol": "…"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PijulConfig"
+        }
+      ]
+    },
     "pulumi": {
       "default": {
         "disabled": false,
@@ -1192,7 +1404,9 @@
           "purs"
         ],
         "detect_files": [
-          "spago.dhall"
+          "spago.dhall",
+          "spago.yaml",
+          "spago.lock"
         ],
         "detect_folders": [],
         "disabled": false,
@@ -1209,8 +1423,12 @@
     },
     "python": {
       "default": {
+        "detect_env_vars": [
+          "VIRTUAL_ENV"
+        ],
         "detect_extensions": [
-          "py"
+          "py",
+          "ipynb"
         ],
         "detect_files": [
           "requirements.txt",
@@ -1219,7 +1437,8 @@
           "Pipfile",
           "tox.ini",
           "setup.py",
-          "__init__.py"
+          "__init__.py",
+          "pixi.toml"
         ],
         "detect_folders": [],
         "disabled": false,
@@ -1238,6 +1457,27 @@
       "allOf": [
         {
           "$ref": "#/definitions/PythonConfig"
+        }
+      ]
+    },
+    "quarto": {
+      "default": {
+        "detect_extensions": [
+          "qmd"
+        ],
+        "detect_files": [
+          "_quarto.yml"
+        ],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "via [$symbol($version )]($style)",
+        "style": "bold #75AADB",
+        "symbol": "⨁ ",
+        "version_format": "v${raw}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/QuartoConfig"
         }
       ]
     },
@@ -1296,7 +1536,7 @@
           "Rsx"
         ],
         "detect_files": [
-          ".Rprofile"
+          "DESCRIPTION"
         ],
         "detect_folders": [
           ".Rproj.user"
@@ -1414,6 +1654,7 @@
         "disabled": true,
         "format": "[$symbol$shlvl]($style) ",
         "repeat": false,
+        "repeat_offset": 0,
         "style": "bold yellow",
         "symbol": "↕️  ",
         "threshold": 2
@@ -1434,6 +1675,28 @@
       "allOf": [
         {
           "$ref": "#/definitions/SingularityConfig"
+        }
+      ]
+    },
+    "solidity": {
+      "default": {
+        "compiler": [
+          "solc"
+        ],
+        "detect_extensions": [
+          "sol"
+        ],
+        "detect_files": [],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "via [$symbol($version)]($style)",
+        "style": "bold blue",
+        "symbol": "S ",
+        "version_format": "v${major}.${minor}.${patch}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/SolidityConfig"
         }
       ]
     },
@@ -1459,7 +1722,7 @@
         "not_executable_symbol": "🚫",
         "not_found_symbol": "🔍",
         "pipestatus": false,
-        "pipestatus_format": "\\[$pipestatus\\] => [$symbol$common_meaning$signal_name$maybe_int]($style)",
+        "pipestatus_format": "\\[$pipestatus\\] => [$symbol$common_meaning$signal_name$maybe_int]($style) ",
         "pipestatus_separator": "|",
         "recognize_signal_code": true,
         "sigint_symbol": "🧱",
@@ -1547,8 +1810,31 @@
         }
       ]
     },
+    "typst": {
+      "default": {
+        "detect_extensions": [
+          "typ"
+        ],
+        "detect_files": [
+          "template.typ"
+        ],
+        "detect_folders": [],
+        "disabled": false,
+        "format": "via [$symbol($version )]($style)",
+        "style": "bold #0093A7",
+        "symbol": "t ",
+        "version_format": "v${raw}"
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/TypstConfig"
+        }
+      ]
+    },
     "username": {
       "default": {
+        "aliases": {},
+        "detect_env_vars": [],
         "disabled": false,
         "format": "[$user]($style) in ",
         "show_always": false,
@@ -1670,6 +1956,10 @@
       "default": true,
       "type": "boolean"
     },
+    "follow_symlinks": {
+      "default": true,
+      "type": "boolean"
+    },
     "palette": {
       "type": [
         "string",
@@ -1685,13 +1975,20 @@
           "type": "string"
         }
       }
+    },
+    "profiles": {
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
     }
   },
   "additionalProperties": false,
   "definitions": {
     "AwsConfig": {
       "title": "AWS",
-      "description": "The `aws` module shows the current AWS region and profile and an expiration timer when using temporary credentials. The output of the module uses the `AWS_REGION`, `AWS_DEFAULT_REGION`, and `AWS_PROFILE` env vars and the `~/.aws/config` and `~/.aws/credentials` files as required.\n\nThe module will display a profile only if its credentials are present in `~/.aws/credentials` or if a `credential_process` or `sso_start_url` are defined in `~/.aws/config`. Alternatively, having any of the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, or `AWS_SESSION_TOKEN` env vars defined will also suffice. If the option `force_display` is set to `true`, all available information will be displayed even if no credentials per the conditions above are detected.\n\nWhen using [aws-vault](https://github.com/99designs/aws-vault) the profile is read from the `AWS_VAULT` env var and the credentials expiration date is read from the `AWS_SESSION_EXPIRATION` env var.\n\nWhen using [awsu](https://github.com/kreuzwerker/awsu) the profile is read from the `AWSU_PROFILE` env var.\n\nWhen using [`AWSume`](https://awsu.me) the profile is read from the `AWSUME_PROFILE` env var and the credentials expiration date is read from the `AWSUME_EXPIRATION` env var.",
+      "description": "The `aws` module shows the current AWS region and profile and an expiration timer when using temporary credentials. The output of the module uses the `AWS_REGION`, `AWS_DEFAULT_REGION`, and `AWS_PROFILE` env vars and the `~/.aws/config` and `~/.aws/credentials` files as required.\n\nThe module will display a profile only if its credentials are present in `~/.aws/credentials` or if a `credential_process` or `sso_start_url` are defined in `~/.aws/config`. Alternatively, having any of the `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, or `AWS_SESSION_TOKEN` env vars defined will also suffice. If the option `force_display` is set to `true`, all available information will be displayed even if no credentials per the conditions above are detected.\n\nWhen using [aws-vault](https://github.com/99designs/aws-vault) the profile is read from the `AWS_VAULT` env var and the credentials expiration date is read from the `AWS_SESSION_EXPIRATION` or `AWS_CREDENTIAL_EXPIRATION` var.\n\nWhen using [awsu](https://github.com/kreuzwerker/awsu) the profile is read from the `AWSU_PROFILE` env var.\n\nWhen using [`AWSume`](https://awsu.me) the profile is read from the `AWSUME_PROFILE` env var and the credentials expiration date is read from the `AWSUME_EXPIRATION` env var.\n\nWhen using [aws-sso-cli](https://github.com/synfinatic/aws-sso-cli) the profile is read from the `AWS_SSO_PROFILE` env var.",
       "type": "object",
       "properties": {
         "format": {
@@ -1751,7 +2048,7 @@
           "type": "string"
         },
         "symbol": {
-          "default": "ﴃ ",
+          "default": "󰠅 ",
           "type": "string"
         },
         "style": {
@@ -1761,6 +2058,13 @@
         "disabled": {
           "default": true,
           "type": "boolean"
+        },
+        "subscription_aliases": {
+          "default": {},
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -1769,23 +2073,23 @@
       "type": "object",
       "properties": {
         "full_symbol": {
-          "default": " ",
+          "default": "󰁹 ",
           "type": "string"
         },
         "charging_symbol": {
-          "default": " ",
+          "default": "󰂄 ",
           "type": "string"
         },
         "discharging_symbol": {
-          "default": " ",
+          "default": "󰂃 ",
           "type": "string"
         },
         "unknown_symbol": {
-          "default": " ",
+          "default": "󰁽 ",
           "type": "string"
         },
         "empty_symbol": {
-          "default": " ",
+          "default": "󰂎 ",
           "type": "string"
         },
         "display": {
@@ -1905,7 +2209,7 @@
           "type": "string"
         },
         "symbol": {
-          "default": "🍞 ",
+          "default": "🥟 ",
           "type": "string"
         },
         "style": {
@@ -1925,6 +2229,7 @@
         },
         "detect_files": {
           "default": [
+            "bun.lock",
             "bun.lockb",
             "bunfig.toml"
           ],
@@ -2443,6 +2748,7 @@
           "default": [
             "deno.json",
             "deno.jsonc",
+            "deno.lock",
             "mod.ts",
             "deps.ts",
             "mod.js",
@@ -2540,6 +2846,80 @@
         "use_os_path_sep": {
           "default": true,
           "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DirenvConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "[$symbol$loaded/$allowed]($style) ",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "direnv ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold bright-yellow",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_env_vars": {
+          "default": [
+            "DIRENV_FILE"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [
+            ".envrc"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowed_msg": {
+          "default": "allowed",
+          "type": "string"
+        },
+        "not_allowed_msg": {
+          "default": "not allowed",
+          "type": "string"
+        },
+        "denied_msg": {
+          "default": "denied",
+          "type": "string"
+        },
+        "loaded_msg": {
+          "default": "loaded",
+          "type": "string"
+        },
+        "unloaded_msg": {
+          "default": "not loaded",
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -2790,6 +3170,10 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        },
+        "description": {
+          "default": "<env_var module>",
+          "type": "string"
         }
       },
       "additionalProperties": false
@@ -2844,6 +3228,55 @@
       },
       "additionalProperties": false
     },
+    "FennelConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${raw}",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "🧅 ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold green",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "fnl"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "FillConfig": {
       "type": "object",
       "properties": {
@@ -2857,6 +3290,63 @@
         },
         "disabled": {
           "default": false,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "FossilBranchConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "on [$symbol$branch]($style) ",
+          "type": "string"
+        },
+        "symbol": {
+          "default": " ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold purple",
+          "type": "string"
+        },
+        "truncation_length": {
+          "default": 9223372036854775807,
+          "type": "integer",
+          "format": "int64"
+        },
+        "truncation_symbol": {
+          "default": "…",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "FossilMetricsConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "([+$added]($added_style) )([-$deleted]($deleted_style) )",
+          "type": "string"
+        },
+        "added_style": {
+          "default": "bold green",
+          "type": "string"
+        },
+        "deleted_style": {
+          "default": "bold red",
+          "type": "string"
+        },
+        "only_nonzero_diffs": {
+          "default": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "default": true,
           "type": "boolean"
         }
       },
@@ -2892,6 +3382,13 @@
           "default": {},
           "type": "object",
           "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "detect_env_vars": {
+          "default": [],
+          "type": "array",
+          "items": {
             "type": "string"
           }
         }
@@ -3008,6 +3505,10 @@
         "disabled": {
           "default": true,
           "type": "boolean"
+        },
+        "ignore_submodules": {
+          "default": false,
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -3113,6 +3614,10 @@
           "default": "?",
           "type": "string"
         },
+        "typechanged": {
+          "default": "",
+          "type": "string"
+        },
         "ignore_submodules": {
           "default": false,
           "type": "boolean"
@@ -3126,6 +3631,57 @@
             "string",
             "null"
           ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "GleamConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${raw}",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "⭐ ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold #FFAFF3",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "gleam"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [
+            "gleam.toml"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -3152,6 +3708,10 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        },
+        "not_capable_style": {
+          "default": "bold red",
+          "type": "string"
         },
         "detect_extensions": {
           "default": [
@@ -3180,6 +3740,62 @@
         "detect_folders": {
           "default": [
             "Godeps"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "GradleConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${raw}",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "🅶 ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold bright-cyan",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "recursive": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "gradle",
+            "gradle.kts"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [
+            "gradle"
           ],
           "type": "array",
           "items": {
@@ -3384,7 +4000,7 @@
           "type": "string"
         },
         "format": {
-          "default": "on [$symbol$branch]($style) ",
+          "default": "on [$symbol$branch(:$topic)]($style) ",
           "type": "string"
         },
         "truncation_length": {
@@ -3418,6 +4034,13 @@
           "default": ".",
           "type": "string"
         },
+        "detect_env_vars": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "format": {
           "default": "[$ssh_symbol$hostname]($style) in ",
           "type": "string"
@@ -3429,6 +4052,13 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        },
+        "aliases": {
+          "default": {},
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -3478,7 +4108,8 @@
             ".java-version",
             "deps.edn",
             "project.clj",
-            "build.boot"
+            "build.boot",
+            ".sdkmanrc"
           ],
           "type": "array",
           "items": {
@@ -3691,6 +4322,65 @@
           "items": {
             "type": "string"
           }
+        },
+        "detect_env_vars": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contexts": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KubernetesContextConfig"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "KubernetesContextConfig": {
+      "type": "object",
+      "properties": {
+        "context_pattern": {
+          "default": "",
+          "type": "string"
+        },
+        "user_pattern": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "symbol": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "style": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "context_alias": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "user_alias": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": false
@@ -3843,6 +4533,74 @@
       },
       "additionalProperties": false
     },
+    "MojoConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "with [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "🔥 ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold 208",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "mojo",
+            "🔥"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "NatsConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "[$symbol($name )]($style)",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "✉️ ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold purple",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
     "NimConfig": {
       "type": "object",
       "properties": {
@@ -3919,7 +4677,15 @@
           "default": "pure",
           "type": "string"
         },
+        "unknown_msg": {
+          "default": "",
+          "type": "string"
+        },
         "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "heuristic": {
           "default": false,
           "type": "boolean"
         }
@@ -4060,6 +4826,55 @@
       },
       "additionalProperties": false
     },
+    "OdinConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "show_commit": {
+          "default": false,
+          "type": "boolean"
+        },
+        "symbol": {
+          "default": "Ø ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold bright-blue",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "odin"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "OpaConfig": {
       "type": "object",
       "properties": {
@@ -4144,10 +4959,15 @@
         },
         "symbols": {
           "default": {
+            "AIX": "➿ ",
+            "AlmaLinux": "💠 ",
+            "Alpaquita": "🔔 ",
             "Alpine": "🏔️ ",
             "Amazon": "🙂 ",
             "Android": "🤖 ",
             "Arch": "🎗️ ",
+            "Artix": "🎗️ ",
+            "CachyOS": "🎗️ ",
             "CentOS": "💠 ",
             "Debian": "🌀 ",
             "DragonFly": "🐉 ",
@@ -4159,7 +4979,9 @@
             "Gentoo": "🗜️ ",
             "HardenedBSD": "🛡️ ",
             "Illumos": "🐦 ",
+            "Kali": "🐉 ",
             "Linux": "🐧 ",
+            "Mabox": "📦 ",
             "Macos": "🍎 ",
             "Manjaro": "🥭 ",
             "Mariner": "🌊 ",
@@ -4167,18 +4989,25 @@
             "Mint": "🌿 ",
             "NetBSD": "🚩 ",
             "NixOS": "❄️ ",
+            "Nobara": "🎩 ",
             "OpenBSD": "🐡 ",
+            "OpenCloudOS": "☁️ ",
             "OracleLinux": "🦴 ",
             "Pop": "🍭 ",
             "Raspbian": "🍓 ",
             "RedHatEnterprise": "🎩 ",
             "Redhat": "🎩 ",
             "Redox": "🧪 ",
+            "RockyLinux": "💠 ",
             "SUSE": "🦎 ",
             "Solus": "⛵ ",
             "Ubuntu": "🎯 ",
+            "Ultramarine": "🔷 ",
             "Unknown": "❓ ",
+            "Uos": "🐲 ",
+            "Void": "  ",
             "Windows": "🪟 ",
+            "openEuler": "🦉 ",
             "openSUSE": "🦎 "
           },
           "type": "object",
@@ -4334,6 +5163,37 @@
       },
       "additionalProperties": false
     },
+    "PijulConfig": {
+      "type": "object",
+      "properties": {
+        "symbol": {
+          "default": " ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold purple",
+          "type": "string"
+        },
+        "format": {
+          "default": "on [$symbol$channel]($style) ",
+          "type": "string"
+        },
+        "truncation_length": {
+          "default": 9223372036854775807,
+          "type": "integer",
+          "format": "int64"
+        },
+        "truncation_symbol": {
+          "default": "…",
+          "type": "string"
+        },
+        "disabled": {
+          "default": true,
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
     "PulumiConfig": {
       "type": "object",
       "properties": {
@@ -4398,7 +5258,9 @@
         },
         "detect_files": {
           "default": [
-            "spago.dhall"
+            "spago.dhall",
+            "spago.yaml",
+            "spago.lock"
           ],
           "type": "array",
           "items": {
@@ -4460,7 +5322,8 @@
         },
         "detect_extensions": {
           "default": [
-            "py"
+            "py",
+            "ipynb"
           ],
           "type": "array",
           "items": {
@@ -4475,7 +5338,8 @@
             "Pipfile",
             "tox.ini",
             "setup.py",
-            "__init__.py"
+            "__init__.py",
+            "pixi.toml"
           ],
           "type": "array",
           "items": {
@@ -4484,6 +5348,15 @@
         },
         "detect_folders": {
           "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_env_vars": {
+          "default": [
+            "VIRTUAL_ENV"
+          ],
           "type": "array",
           "items": {
             "type": "string"
@@ -4504,6 +5377,57 @@
           }
         }
       ]
+    },
+    "QuartoConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${raw}",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "⨁ ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold #75AADB",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "qmd"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [
+            "_quarto.yml"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
     },
     "RakuConfig": {
       "type": "object",
@@ -4648,7 +5572,7 @@
         },
         "detect_files": {
           "default": [
-            ".Rprofile"
+            "DESCRIPTION"
           ],
           "type": "array",
           "items": {
@@ -4859,6 +5783,12 @@
           "default": "psh",
           "type": "string"
         },
+        "pwsh_indicator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "ion_indicator": {
           "default": "ion",
           "type": "string"
@@ -4918,6 +5848,12 @@
           "default": false,
           "type": "boolean"
         },
+        "repeat_offset": {
+          "default": 0,
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        },
         "style": {
           "default": "bold yellow",
           "type": "string"
@@ -4947,6 +5883,65 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "SolidityConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version)]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${major}.${minor}.${patch}",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "style": {
+          "default": "bold blue",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "S ",
+          "type": "string"
+        },
+        "compiler": {
+          "default": [
+            "solc"
+          ],
+          "allOf": [
+            {
+              "$ref": "#/definitions/Either_for_String_and_Array_of_String"
+            }
+          ]
+        },
+        "detect_extensions": {
+          "default": [
+            "sol"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -5014,6 +6009,18 @@
           "default": "bold red",
           "type": "string"
         },
+        "success_style": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "failure_style": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "map_symbol": {
           "default": false,
           "type": "boolean"
@@ -5031,7 +6038,7 @@
           "type": "string"
         },
         "pipestatus_format": {
-          "default": "\\[$pipestatus\\] => [$symbol$common_meaning$signal_name$maybe_int]($style)",
+          "default": "\\[$pipestatus\\] => [$symbol$common_meaning$signal_name$maybe_int]($style) ",
           "type": "string"
         },
         "pipestatus_segment_format": {
@@ -5213,9 +6220,67 @@
       },
       "additionalProperties": false
     },
+    "TypstConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "default": "via [$symbol($version )]($style)",
+          "type": "string"
+        },
+        "version_format": {
+          "default": "v${raw}",
+          "type": "string"
+        },
+        "symbol": {
+          "default": "t ",
+          "type": "string"
+        },
+        "style": {
+          "default": "bold #0093A7",
+          "type": "string"
+        },
+        "disabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "detect_extensions": {
+          "default": [
+            "typ"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_files": {
+          "default": [
+            "template.typ"
+          ],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "detect_folders": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "UsernameConfig": {
       "type": "object",
       "properties": {
+        "detect_env_vars": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "format": {
           "default": "[$user]($style) in ",
           "type": "string"
@@ -5235,6 +6300,13 @@
         "disabled": {
           "default": false,
           "type": "boolean"
+        },
+        "aliases": {
+          "default": {},
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
@@ -5435,6 +6507,10 @@
             }
           ]
         },
+        "require_repo": {
+          "default": false,
+          "type": "boolean"
+        },
         "shell": {
           "default": [],
           "allOf": [
@@ -5489,6 +6565,10 @@
           ]
         },
         "ignore_timeout": {
+          "default": false,
+          "type": "boolean"
+        },
+        "unsafe_no_escape": {
           "default": false,
           "type": "boolean"
         }

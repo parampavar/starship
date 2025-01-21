@@ -1,36 +1,39 @@
 use crate::context::{Context, Shell, Target};
 use crate::logger::StarshipLogger;
 use crate::{
-    config::{ModuleConfig, StarshipConfig},
-    configs::StarshipRootConfig,
+    config::StarshipConfig,
     utils::{create_command, CommandOutput},
 };
 use log::{Level, LevelFilter};
-use once_cell::sync::Lazy;
+use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
+use std::sync::LazyLock;
+use std::sync::Once;
 use tempfile::TempDir;
 
-static FIXTURE_DIR: Lazy<PathBuf> =
-    Lazy::new(|| PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/test/fixtures/"));
+static FIXTURE_DIR: LazyLock<PathBuf> =
+    LazyLock::new(|| PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/test/fixtures/"));
 
-static GIT_FIXTURE: Lazy<PathBuf> = Lazy::new(|| FIXTURE_DIR.join("git-repo.bundle"));
-static HG_FIXTURE: Lazy<PathBuf> = Lazy::new(|| FIXTURE_DIR.join("hg-repo.bundle"));
+static GIT_FIXTURE: LazyLock<PathBuf> = LazyLock::new(|| FIXTURE_DIR.join("git-repo.bundle"));
+static HG_FIXTURE: LazyLock<PathBuf> = LazyLock::new(|| FIXTURE_DIR.join("hg-repo.bundle"));
 
-static LOGGER: Lazy<()> = Lazy::new(|| {
+static LOGGER: Once = Once::new();
+
+fn init_logger() {
     let mut logger = StarshipLogger::default();
 
     // Don't log to files during tests
     let nul = if cfg!(windows) { "nul" } else { "/dev/null" };
     let nul = PathBuf::from(nul);
 
-    // Maxmimum log level
+    // Maximum log level
     log::set_max_level(LevelFilter::Trace);
     logger.set_log_level(Level::Trace);
     logger.set_log_file_path(nul);
 
     log::set_boxed_logger(Box::new(logger)).unwrap();
-});
+}
 
 pub fn default_context() -> Context<'static> {
     let mut context = Context::new_with_shell_and_path(
@@ -39,6 +42,7 @@ pub fn default_context() -> Context<'static> {
         Target::Main,
         PathBuf::new(),
         PathBuf::new(),
+        Default::default(),
     );
     context.config = StarshipConfig { config: None };
     context
@@ -54,7 +58,7 @@ impl<'a> ModuleRenderer<'a> {
     /// Creates a new `ModuleRenderer`
     pub fn new(name: &'a str) -> Self {
         // Start logger
-        Lazy::force(&LOGGER);
+        LOGGER.call_once(init_logger);
 
         let context = default_context();
 
@@ -66,7 +70,9 @@ impl<'a> ModuleRenderer<'a> {
         T: Into<PathBuf>,
     {
         self.context.current_dir = path.into();
-        self.context.logical_dir = self.context.current_dir.clone();
+        self.context
+            .logical_dir
+            .clone_from(&self.context.current_dir);
         self
     }
 
@@ -83,11 +89,8 @@ impl<'a> ModuleRenderer<'a> {
     }
 
     /// Sets the config of the underlying context
-    pub fn config(mut self, config: toml::Value) -> Self {
-        self.context.root_config = StarshipRootConfig::load(&config);
-        self.context.config = StarshipConfig {
-            config: Some(config),
-        };
+    pub fn config(mut self, config: toml::Table) -> Self {
+        self.context = self.context.set_config(config);
         self
     }
 
@@ -131,6 +134,11 @@ impl<'a> ModuleRenderer<'a> {
         self
     }
 
+    pub fn width(mut self, width: usize) -> Self {
+        self.context.width = width;
+        self
+    }
+
     #[cfg(feature = "battery")]
     pub fn battery_info_provider(
         mut self,
@@ -161,14 +169,39 @@ impl<'a> ModuleRenderer<'a> {
     }
 }
 
+impl<'a> From<ModuleRenderer<'a>> for Context<'a> {
+    fn from(renderer: ModuleRenderer<'a>) -> Self {
+        renderer.context
+    }
+}
+
 #[derive(Clone, Copy)]
 pub enum FixtureProvider {
+    Fossil,
     Git,
+    GitBare,
     Hg,
+    Pijul,
 }
 
 pub fn fixture_repo(provider: FixtureProvider) -> io::Result<TempDir> {
     match provider {
+        FixtureProvider::Fossil => {
+            let checkout_db = if cfg!(windows) {
+                "_FOSSIL_"
+            } else {
+                ".fslckout"
+            };
+            let path = tempfile::tempdir()?;
+            fs::create_dir(path.path().join("subdir"))?;
+            fs::OpenOptions::new()
+                .create(true)
+                .write(true)
+                .truncate(false)
+                .open(path.path().join(checkout_db))?
+                .sync_all()?;
+            Ok(path)
+        }
         FixtureProvider::Git => {
             let path = tempfile::tempdir()?;
 
@@ -211,6 +244,16 @@ pub fn fixture_repo(provider: FixtureProvider) -> io::Result<TempDir> {
 
             Ok(path)
         }
+        FixtureProvider::GitBare => {
+            let path = tempfile::tempdir()?;
+            gix::ThreadSafeRepository::init(
+                &path,
+                gix::create::Kind::Bare,
+                gix::create::Options::default(),
+            )
+            .map_err(|err| io::Error::new(io::ErrorKind::Other, err))?;
+            Ok(path)
+        }
         FixtureProvider::Hg => {
             let path = tempfile::tempdir()?;
 
@@ -221,6 +264,11 @@ pub fn fixture_repo(provider: FixtureProvider) -> io::Result<TempDir> {
                 .arg(path.path())
                 .output()?;
 
+            Ok(path)
+        }
+        FixtureProvider::Pijul => {
+            let path = tempfile::tempdir()?;
+            fs::create_dir(path.path().join(".pijul"))?;
             Ok(path)
         }
     }
