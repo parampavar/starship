@@ -21,13 +21,14 @@ pub struct GitStatusConfig<'a> {
     pub modified: &'a str,
     pub staged: &'a str,
     pub untracked: &'a str,
+    pub typechanged: &'a str,
     pub ignore_submodules: bool,
     pub disabled: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub windows_starship: Option<&'a str>,
 }
 
-impl<'a> Default for GitStatusConfig<'a> {
+impl Default for GitStatusConfig<'_> {
     fn default() -> Self {
         GitStatusConfig {
             format: "([\\[$all_status$ahead_behind\\]]($style) )",
@@ -43,6 +44,7 @@ impl<'a> Default for GitStatusConfig<'a> {
             modified: "!",
             staged: "+",
             untracked: "?",
+            typechanged: "",
             ignore_submodules: false,
             disabled: false,
             windows_starship: None,

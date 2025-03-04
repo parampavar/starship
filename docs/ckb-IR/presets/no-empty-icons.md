@@ -1,4 +1,4 @@
-[Return to Presets](./README.md#no-empty-icons)
+[Return to Presets](./#no-empty-icons)
 
 # No Empty Icons Preset
 
@@ -9,9 +9,9 @@ If toolset files are identified the toolset icon is displayed. If the toolset is
 ### ڕێکخستن
 
 ```sh
-starship preset no-empty-icons > ~/.config/starship.toml
+starship preset no-empty-icons -o ~/.config/starship.toml
 ```
 
-[Click to download TOML](/presets/toml/no-empty-icons.toml)
+[Click to download TOML](/presets/toml/no-empty-icons.toml){download}
 
-<<< @/.vuepress/public/presets/toml/no-empty-icons.toml
+<<< @/public/presets/toml/no-empty-icons.toml

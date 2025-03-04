@@ -1,4 +1,4 @@
-[返回全部预设](./README.md#pure)
+[返回全部预设](./#pure)
 
 # Pure Preset
 
@@ -9,9 +9,9 @@
 ### 配置
 
 ```sh
-starship preset pure-preset > ~/.config/starship.toml
+starship preset pure-preset -o ~/.config/starship.toml
 ```
 
-[点击下载 TOML 文件](/presets/toml/pure-preset.toml)
+[Click to download TOML](/presets/toml/pure-preset.toml){download}
 
-<<< @/.vuepress/public/presets/toml/pure-preset.toml
+<<< @/public/presets/toml/pure-preset.toml

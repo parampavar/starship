@@ -13,12 +13,13 @@ pub struct GoConfig<'a> {
     pub symbol: &'a str,
     pub style: &'a str,
     pub disabled: bool,
+    pub not_capable_style: &'a str,
     pub detect_extensions: Vec<&'a str>,
     pub detect_files: Vec<&'a str>,
     pub detect_folders: Vec<&'a str>,
 }
 
-impl<'a> Default for GoConfig<'a> {
+impl Default for GoConfig<'_> {
     fn default() -> Self {
         GoConfig {
             format: "via [$symbol($version )]($style)",
@@ -26,6 +27,7 @@ impl<'a> Default for GoConfig<'a> {
             symbol: "🐹 ",
             style: "bold cyan",
             disabled: false,
+            not_capable_style: "bold red",
             detect_extensions: vec!["go"],
             detect_files: vec![
                 "go.mod",

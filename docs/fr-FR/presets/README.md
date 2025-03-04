@@ -14,7 +14,11 @@ Ce préréglage change les symboles de chaque module pour utiliser les symboles 
 
 This preset changes the symbols for several modules so that no Nerd Font symbols are used anywhere in the prompt.
 
-::: tip This preset will become the default preset [in a future release of starship](https://github.com/starship/starship/pull/3544). :::
+::: tip
+
+This preset will become the default preset [in a future release of starship](https://github.com/starship/starship/pull/3544).
+
+:::
 
 [Click to view No Nerd Font preset](./no-nerd-font)
 
@@ -28,7 +32,7 @@ Ce préréglage modifie le format de tous les modules intégrés pour afficher l
 
 Ce préréglage change les symboles de chaque module en texte brut. Idéal si vous n'avez pas accès à Unicode.
 
-[![Capture d'écran du préréglage Symboles en texte brut](/presets/img/plain-text-symbols.png "Cliquez pour voir le préréglage Texte uniquement")](./plain-text)
+[![Capture d'écran du préréglage Texte uniquement](/presets/img/plain-text-symbols.png "Cliquez pour voir le préréglage Texte uniquement")](./plain-text)
 
 ## [Pas de version des environnements](./no-runtimes.md)
 
@@ -59,3 +63,15 @@ Ce préréglage s'inspire de [M365Princess](https://github.com/JanDeDobbeleer/oh
 This preset is inspired by [tokyo-night-vscode-theme](https://github.com/enkia/tokyo-night-vscode-theme).
 
 [![Screenshot of Tokyo Night preset](/presets/img/tokyo-night.png "Click to view Tokyo Night preset")](./tokyo-night)
+
+## [Gruvbox Rainbow](./gruvbox-rainbow.md)
+
+This preset is heavily inspired by [Pastel Powerline](./pastel-powerline.md), and [Tokyo Night](./tokyo-night.md).
+
+[![Screenshot of Gruvbox Rainbow preset](/presets/img/gruvbox-rainbow.png "Click to view Gruvbox Rainbow preset")](./gruvbox-rainbow)
+
+## [Jetpack](./jetpack.md)
+
+This is a pseudo minimalist preset inspired by the [geometry](https://github.com/geometry-zsh/geometry) and [spaceship](https://github.com/spaceship-prompt/spaceship-prompt) prompts.
+
+[![Screenshot of Jetpack preset](/presets/img/jetpack.png "Click to view Jetpack preset")](./jetpack)

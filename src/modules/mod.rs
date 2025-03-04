@@ -11,25 +11,31 @@ mod cobol;
 mod conda;
 mod container;
 mod crystal;
-pub(crate) mod custom;
+pub mod custom;
 mod daml;
 mod dart;
 mod deno;
 mod directory;
+mod direnv;
 mod docker_context;
 mod dotnet;
 mod elixir;
 mod elm;
 mod env_var;
 mod erlang;
+mod fennel;
 mod fill;
+mod fossil_branch;
+mod fossil_metrics;
 mod gcloud;
 mod git_branch;
 mod git_commit;
 mod git_metrics;
 mod git_state;
 mod git_status;
+mod gleam;
 mod golang;
+mod gradle;
 mod guix_shell;
 mod haskell;
 mod haxe;
@@ -46,19 +52,24 @@ mod localip;
 mod lua;
 mod memory_usage;
 mod meson;
+mod mojo;
+mod nats;
 mod nim;
 mod nix_shell;
 mod nodejs;
 mod ocaml;
+mod odin;
 mod opa;
 mod openstack;
 mod os;
 mod package;
 mod perl;
 mod php;
+mod pijul_channel;
 mod pulumi;
 mod purescript;
 mod python;
+mod quarto;
 mod raku;
 mod red;
 mod rlang;
@@ -68,6 +79,7 @@ mod scala;
 mod shell;
 mod shlvl;
 mod singularity;
+mod solidity;
 mod spack;
 mod status;
 mod sudo;
@@ -83,6 +95,7 @@ mod zig;
 
 #[cfg(feature = "battery")]
 mod battery;
+mod typst;
 
 #[cfg(feature = "battery")]
 pub use self::battery::{BatteryInfoProvider, BatteryInfoProviderImpl};
@@ -115,20 +128,26 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "dart" => dart::module(context),
             "deno" => deno::module(context),
             "directory" => directory::module(context),
+            "direnv" => direnv::module(context),
             "docker_context" => docker_context::module(context),
             "dotnet" => dotnet::module(context),
             "elixir" => elixir::module(context),
             "elm" => elm::module(context),
             "erlang" => erlang::module(context),
-            "env_var" => env_var::module(context),
+            "env_var" => env_var::module(None, context),
+            "fennel" => fennel::module(context),
             "fill" => fill::module(context),
+            "fossil_branch" => fossil_branch::module(context),
+            "fossil_metrics" => fossil_metrics::module(context),
             "gcloud" => gcloud::module(context),
             "git_branch" => git_branch::module(context),
             "git_commit" => git_commit::module(context),
             "git_metrics" => git_metrics::module(context),
             "git_state" => git_state::module(context),
             "git_status" => git_status::module(context),
+            "gleam" => gleam::module(context),
             "golang" => golang::module(context),
+            "gradle" => gradle::module(context),
             "guix_shell" => guix_shell::module(context),
             "haskell" => haskell::module(context),
             "haxe" => haxe::module(context),
@@ -145,19 +164,24 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "lua" => lua::module(context),
             "memory_usage" => memory_usage::module(context),
             "meson" => meson::module(context),
+            "mojo" => mojo::module(context),
+            "nats" => nats::module(context),
             "nim" => nim::module(context),
             "nix_shell" => nix_shell::module(context),
             "nodejs" => nodejs::module(context),
             "ocaml" => ocaml::module(context),
+            "odin" => odin::module(context),
             "opa" => opa::module(context),
             "openstack" => openstack::module(context),
             "os" => os::module(context),
             "package" => package::module(context),
             "perl" => perl::module(context),
             "php" => php::module(context),
+            "pijul_channel" => pijul_channel::module(context),
             "pulumi" => pulumi::module(context),
             "purescript" => purescript::module(context),
             "python" => python::module(context),
+            "quarto" => quarto::module(context),
             "raku" => raku::module(context),
             "rlang" => rlang::module(context),
             "red" => red::module(context),
@@ -167,20 +191,23 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "shell" => shell::module(context),
             "shlvl" => shlvl::module(context),
             "singularity" => singularity::module(context),
+            "solidity" => solidity::module(context),
             "spack" => spack::module(context),
             "swift" => swift::module(context),
             "status" => status::module(context),
             "sudo" => sudo::module(context),
             "terraform" => terraform::module(context),
             "time" => time::module(context),
+            "typst" => typst::module(context),
             "crystal" => crystal::module(context),
             "username" => username::module(context),
             "vlang" => vlang::module(context),
             "vagrant" => vagrant::module(context),
             "vcsh" => vcsh::module(context),
             "zig" => zig::module(context),
-            // Added for tests, avoid potential side effects in production code.
-            #[cfg(test)]
+            env if env.starts_with("env_var.") => {
+                env_var::module(env.strip_prefix("env_var."), context)
+            }
             custom if custom.starts_with("custom.") => {
                 // SAFETY: We just checked that the module starts with "custom."
                 custom::module(custom.strip_prefix("custom.").unwrap(), context)
@@ -225,25 +252,30 @@ pub fn description(module: &str) -> &'static str {
         "dart" => "The currently installed version of Dart",
         "deno" => "The currently installed version of Deno",
         "directory" => "The current working directory",
+        "direnv" => "The currently applied direnv file",
         "docker_context" => "The current docker context",
         "dotnet" => "The relevant version of the .NET Core SDK for the current directory",
         "elixir" => "The currently installed versions of Elixir and OTP",
         "elm" => "The currently installed version of Elm",
-        "env_var" => "Displays the current value of a selected environment variable",
         "erlang" => "Current OTP version",
+        "fennel" => "The currently installed version of Fennel",
         "fill" => "Fills the remaining space on the line with a pad string",
+        "fossil_branch" => "The active branch of the check-out in your current directory",
+        "fossil_metrics" => "The currently added/deleted lines in your check-out",
         "gcloud" => "The current GCP client configuration",
         "git_branch" => "The active branch of the repo in your current directory",
         "git_commit" => "The active commit (and tag if any) of the repo in your current directory",
         "git_metrics" => "The currently added/deleted lines in your repo",
         "git_state" => "The current git operation, and it's progress",
         "git_status" => "Symbol representing the state of the repo",
+        "gleam" => "The currently installed version of Gleam",
         "golang" => "The currently installed version of Golang",
+        "gradle" => "The currently installed version of Gradle",
         "guix_shell" => "The guix-shell environment",
         "haskell" => "The selected version of the Haskell toolchain",
         "haxe" => "The currently installed version of Haxe",
         "helm" => "The currently installed version of Helm",
-        "hg_branch" => "The active branch of the repo in your current directory",
+        "hg_branch" => "The active branch and topic of the repo in your current directory",
         "hostname" => "The system hostname",
         "java" => "The currently installed version of Java",
         "jobs" => "The current number of jobs running",
@@ -257,19 +289,24 @@ pub fn description(module: &str) -> &'static str {
         "meson" => {
             "The current Meson environment, if $MESON_DEVENV and $MESON_PROJECT_NAME are set"
         }
+        "mojo" => "The currently installed version of Mojo",
+        "nats" => "The current NATS context",
         "nim" => "The currently installed version of Nim",
         "nix_shell" => "The nix-shell environment",
         "nodejs" => "The currently installed version of NodeJS",
         "ocaml" => "The currently installed version of OCaml",
+        "odin" => "The currently installed version of Odin",
         "opa" => "The currently installed version of Open Platform Agent",
         "openstack" => "The current OpenStack cloud and project",
         "os" => "The current operating system",
         "package" => "The package version of the current directory's project",
         "perl" => "The currently installed version of Perl",
         "php" => "The currently installed version of PHP",
+        "pijul_channel" => "The current channel of the repo in the current directory",
         "pulumi" => "The current username, stack, and installed version of Pulumi",
         "purescript" => "The currently installed version of PureScript",
         "python" => "The currently installed version of Python",
+        "quarto" => "The current installed version of quarto",
         "raku" => "The currently installed version of Raku",
         "red" => "The currently installed version of Red",
         "rlang" => "The currently installed version of R",
@@ -279,12 +316,14 @@ pub fn description(module: &str) -> &'static str {
         "shell" => "The currently used shell indicator",
         "shlvl" => "The current value of SHLVL",
         "singularity" => "The currently used Singularity image",
+        "solidity" => "The current installed version of Solidity",
         "spack" => "The current spack environment, if $SPACK_ENV is set",
         "status" => "The status of the last command",
         "sudo" => "The sudo credentials are currently cached",
         "swift" => "The currently installed version of Swift",
         "terraform" => "The currently selected terraform workspace and version",
         "time" => "The current local time",
+        "typst" => "The current installed version of typst",
         "username" => "The active user's username",
         "vagrant" => "The currently installed version of Vagrant",
         "vcsh" => "The currently active VCSH repository",

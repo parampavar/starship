@@ -1,18 +1,18 @@
 # Розширені налаштування
 
-Хоч Starship і універсальна оболонка, іноді необхідно зробити більше ніж просто відредагувати `star.toml`, щоб можна було робити певні речі. Ця сторінка містить деякі з найбільш просунутих методів конфігурації, які використовуються у starship.
+Хоча Starship і універсальна оболонка, іноді необхідно зробити більше ніж просто змінити `star.toml`, щоб можна було робити певні речі. Ця сторінка містить деякі з найбільш докладних методів налаштувань, які використовуються у starship.
 
 ::: warning
 
-Налаштування у цьому розділі можуть відрізнятись у майбутніх релізах Starship.
+Налаштування у цьому розділі можуть змінюватись у майбутніх релізах Starship.
 
 :::
 
 ## TransientPrompt у PowerShell
 
-Можна замінити попередню підказку на власний рядок. Це корисно у випадках, коли вся інформація з підказки не завжди потрібна. Щоб увімкнути це, запустіть `Enable-TransientPrompt` в сеансі консолі. Щоб зробити цю зміну постійною, додайте цю команду у ваш `$PROFILE`. Transience can be disabled on-the-fly with `Disable-TransientPrompt`.
+Можна замінити попередній командний рядок на власний. Це корисно у випадках, коли вся інформація у ньому не завжди потрібна. Щоб увімкнути це, запустіть `Enable-TransientPrompt` в сеансі оболонки. Щоб зробити цю поведінку постійною, додайте цю команду у ваш `$PROFILE`. Перехідність можна вимкнути на льоту за допомогою `Disable-TransientPrompt`.
 
-By default, the left side of input gets replaced with `>`. To customize this, define a new function called `Invoke-Starship-TransientFunction`. For example, to display Starship's `character` module here, you would do
+Типово, ліва частина вводу буде замінена на `>`. Щоб налаштувати це, створіть нову функцію з назвою `Invoke-Starship-TransientFunction`. Наприклад, щоб показати тут модуль Starship `character`, вам потрібно
 
 ```powershell
 function Invoke-Starship-TransientFunction {
@@ -24,17 +24,17 @@ Invoke-Expression (&starship init powershell)
 Enable-TransientPrompt
 ```
 
-## TransientPrompt and TransientRightPrompt in Cmd
+## TransientPrompt та TransientRightPrompt в Cmd
 
-Clink allows you to replace the previous-printed prompt with custom strings. Це корисно у випадках, коли вся інформація з підказки не завжди потрібна. To enable this, run `clink set prompt.transient <value>` where \<value\> can be one of:
+Clink дозволяє замінювати попередньо надрукований командний рядок іншим рядком. Це корисно у випадках, коли вся інформація з командного рядка не потрібна. Щоб увімкнути це, виконайте `clink set prompt.transient <value>`, де \<value\> може бути одним з:
 
-- `always`: always replace the previous prompt
-- `same_dir`: replace the previous prompt only if the working directory is same
-- `off`: do not replace the prompt (i.e. turn off transience)
+- `always`: завжди замінює попередній командний рядок
+- `same_dir`: замінює попередній командний рядок тільки якщо робоча тека не змінювалась
+- `off`: не змінює командний рядок (тобто функцію вимкнено)
 
-You need to do this only once. Make the following changes to your `starship.lua` to customize what gets displayed on the left and on the right:
+Це треба зробити лише один раз. Зробіть наступні зміни у `starship.lua`, щоб налаштувати, що показується ліворуч і праворуч:
 
-- By default, the left side of input gets replaced with `>`. To customize this, define a new function called `starship_transient_prompt_func`. This function receives the current prompt as a string that you can utilize. For example, to display Starship's `character` module here, you would do
+- Типово, ліва частина вводу буде замінена на `>`. Щоб налаштувати це, створіть нову функцію з назвою `starship_transient_prompt_func`. Ця функція отримує поточний текст командного рядка, з яким ви зможете працювати. Наприклад, щоб показати тут модуль Starship `character`, вам потрібно
 
 ```lua
 function starship_transient_prompt_func(prompt)
@@ -45,7 +45,7 @@ end
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-- By default, the right side of input is empty. To customize this, define a new function called `starship_transient_rprompt_func`. This function receives the current prompt as a string that you can utilize. For example, to display the time at which the last command was started here, you would do
+- Типово, права частина вводу є порожньою. Щоб кастомізувати її, створіть нову функцію з назвою `starship_transient_rprompt_func`. Ця функція отримує поточний текст командного рядка, з яким ви зможете працювати. Наприклад, щоб показати час, коли була запущена остання команда, ви можете зробити
 
 ```lua
 function starship_transient_rprompt_func(prompt)
@@ -54,13 +54,13 @@ end
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-## TransientPrompt and TransientRightPrompt in Fish
+## TransientPrompt та TransientRightPrompt у Fish
 
-Можна замінити попередню підказку на власний рядок. Це корисно у випадках, коли вся інформація з підказки не завжди потрібна. To enable this, run `enable_transience` in the shell session. To make it permanent, put this statement in your `~/.config/fish/config.fish`. Transience can be disabled on-the-fly with `disable_transience`.
+Можна замінити попередньо надрукований командний рядок на власний. Це корисно у випадках, коли вся інформація з командного рядка не потрібна. Щоб увімкнути це, запустіть `enable_transience` в сеансі оболонки. Щоб зробити цю змінну постійною, додайте цей вираз до ваших налаштувань `~/.config/fish/config.fish`. Перехідність може бути вимкнена за допомогою `disable_transience`.
 
-Note that in case of Fish, the transient prompt is only printed if the commandline is non-empty, and syntactically correct.
+Зверніть увагу, що у випадку Fish, перехідний командний рядок буде надруковано лише тоді, коли командний рядок не порожній та синтаксично правильний.
 
-- By default, the left side of input gets replaced with a bold-green `❯`. To customize this, define a new function called `starship_transient_prompt_func`. For example, to display Starship's `character` module here, you would do
+- Типово, ліва частина вводу буде замінена на зелений символ `❯`. Щоб кастомізувати її, створіть нову функцію з назвою `starship_transient_prompt_func`. Наприклад, щоб показати тут модуль Starship `character`, вам потрібно
 
 ```fish
 function starship_transient_prompt_func
@@ -70,7 +70,7 @@ starship init fish | source
 enable_transience
 ```
 
-- By default, the right side of input is empty. To customize this, define a new function called `starship_transient_rprompt_func`. For example, to display the time at which the last command was started here, you would do
+- Типово, права частина вводу є порожньою. Щоб кастомізувати її, створіть нову функцію з назвою `starship_transient_rprompt_func`. Наприклад, щоб показати час, коли була запущена остання команда, ви можете зробити
 
 ```fish
 function starship_transient_rprompt_func
@@ -80,11 +80,31 @@ starship init fish | source
 enable_transience
 ```
 
-## Custom pre-prompt and pre-execution Commands in Cmd
+## TransientPrompt та TransientRightPrompt в Bash
 
-Clink provides extremely flexible APIs to run pre-prompt and pre-exec commands in Cmd shell. It is fairly simple to use with Starship. Make the following changes to your `starship.lua` file as per your requirements:
+[Ble.sh](https://github.com/akinomyoga/ble.sh) v0.4 або вище дозволяє замінювати попередньо надрукований командний рядок іншим рядком. Це корисно у випадках, коли вся інформація з командного рядка не потрібна. Для увімкнення цього додайте до `~/.bashrc` рядок `bleopt prompt_ps1_transient=<value>`:
 
-- To run a custom function right before the prompt is drawn, define a new function called `starship_preprompt_user_func`. This function receives the current prompt as a string that you can utilize. For example, to draw a rocket before the prompt, you would do
+\<value\> тут  – це розділений двокрапкою список `always`, `same-dir` та `trim`. Якщо `prompt_ps1_final` порожній і параметр `prompt_ps1_transient` має не пусте значення \<value\>, командний рядок, вказаний у `PS1` буде стертий при виході з поточного командного рядка. Якщо \<value\> містить поле `trim`, тільки останній рядок багаторядкового `PS1` буде збережений, а інші вилучені. В іншому випадку командний рядок буде встановлено перестворено, якщо вказано `PS1=`. Коли поле `same-dir` міститься у \<value\> та поточна тека є відмінною від останньої теки у попередньому виводі командного рядка, параметр `prompt_ps1_transient` не враховується.
+
+Зробіть наступні зміни у `~/.blerc` (або у `~/.config/blesh/init.sh`), щоб налаштувати, що показується ліворуч і праворуч:
+
+- Для налаштування того, чим замінюється ліва частина вводу, налаштуйте параметр `prompt_ps1_final`. Наприклад, щоб показати тут модуль Starship `character`, вам потрібно
+
+```bash
+bleopt prompt_ps1_final='$(starship module character)'
+```
+
+- Для налаштування того, чим замінюється права частина вводу, налаштуйте параметр `prompt_rps1_final`. Наприклад, щоб показати час, коли була запущена остання команда, ви можете зробити
+
+```bash
+bleopt prompt_rps1_final='$(starship module time)'
+```
+
+## Власні команди pre-prompt та pre-execution в Cmd
+
+Clink забезпечує надзвичайно гнучкий API для виконання команд pre-prompt і pre-exec в Cmd. Його досить просто використовувати в Starship. Зробіть наступні зміни у вашому `starship.lua` відповідно до ваших вимог:
+
+- Для запуску власних функцій прямо перед виводом командного рядка, визначте нову функцію з назвою `starship_preprompt_user_func`. Ця функція отримує поточний текст командного рядка, з яким ви зможете працювати. Наприклад, щоб показати ракету перед командним рядком, ви можете зробити наступне
 
 ```lua
 function starship_preprompt_user_func(prompt)
@@ -94,7 +114,7 @@ end
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-- To run a custom function right before a command is executed, define a new function called `starship_precmd_user_func`. This function receives the current commandline as a string that you can utilize. For example, to print the command that's about to be executed, you would do
+- Для запуску власних функцій прямо перед виконанням команди, визначте нову функцію з назвою `starship_precmd_user_func`. Ця функція отримує поточний текст команди, з яким ви зможете працювати. Наприклад, для виводу команди, яка буде виконана, вам треба зробити
 
 ```lua
 function starship_precmd_user_func(line)
@@ -104,11 +124,11 @@ end
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-## Custom pre-prompt and pre-execution Commands in Bash
+## Власні команди pre-prompt та pre-execution в Bash
 
-Bash does not have a formal preexec/precmd framework like most other shells. Because of this, it is difficult to provide fully customizable hooks in `bash`. However, Starship does give you limited ability to insert your own functions into the prompt-rendering procedure:
+Bash не має офіційної системи preexec/precmd, як більшість інших оболонок. Через це важко забезпечити повністю настроювані гачки для цього в `bash`. Однак, Starship дає можливість вставити свої власні функції в процедуру виводу командного рядка:
 
-- To run a custom function right before the prompt is drawn, define a new function and then assign its name to `starship_precmd_user_func`. For example, to draw a rocket before the prompt, you would do
+- Для запуску власних функцій прямо перед виводом командного рядка, визначте нову функцію з назвою `starship_precmd_user_func`. Наприклад, щоб показати ракету перед командним рядком, ви можете зробити наступне
 
 ```bash
 function blastoff(){
@@ -117,7 +137,7 @@ function blastoff(){
 starship_precmd_user_func="blastoff"
 ```
 
-- To run a custom function right before a command runs, you can use the [`DEBUG` trap mechanism](https://jichu4n.com/posts/debug-trap-and-prompt_command-in-bash/). However, you **must** trap the DEBUG signal _before_ initializing Starship! Starship can preserve the value of the DEBUG trap, but if the trap is overwritten after starship starts up, some functionality will break.
+- Щоб запустити власну функцію прямо перед запуском команди, можна використати механізм [`DEBUG` trap](https://jichu4n.com/posts/debug-trap-and-prompt_command-in-bash/). Однак, ви **повинні** перехопити сигнал DEBUG _перед_ ініціалізацією Starship! Starship може зберегти значення перехоплення DEBUG, але якщо перехоплення буде перезаписане після початку запуску, деякі функції не працюватимуть.
 
 ```bash
 function blastoff(){
@@ -129,11 +149,11 @@ eval $(starship init bash)
 set +o functrace
 ```
 
-## Custom pre-prompt and pre-execution Commands in PowerShell
+## Власні команди pre-prompt та pre-execution в PowerShell
 
-PowerShell does not have a formal preexec/precmd framework like most other shells. Because of this, it is difficult to provide fully customizable hooks in `powershell`. However, Starship does give you limited ability to insert your own functions into the prompt-rendering procedure:
+PowerShell не має офіційної системи preexec/precmd, як більшість інших оболонок. Через це важко забезпечити повністю настроювані гачки для цього в `powershell`. Однак, Starship дає можливість вставити свої власні функції в процедуру виводу командного рядка:
 
-Create a function named `Invoke-Starship-PreCommand`
+Створіть функцію з назвою `Invoke-Starship-PreCommand`
 
 ```powershell
 function Invoke-Starship-PreCommand {
@@ -141,11 +161,11 @@ function Invoke-Starship-PreCommand {
 }
 ```
 
-## Change Window Title
+## Зміна заголовка вікна
 
-Some shell prompts will automatically change the window title for you (e.g. to reflect your working directory). Fish even does it by default. Starship does not do this, but it's fairly straightforward to add this functionality to `bash`, `zsh`, `cmd` or `powershell`.
+В деяких оболонках командний рядок автоматично змінює заголовок вікна (наприклад, на назву поточної теки). У Fish це стандартна поведінка. Starship цього не робить, але це досить просто зробити у `bash`, `zsh`, `cmd` або `powershell`.
 
-First, define a window title change function (identical in bash and zsh):
+Спочатку визначте функцію зміни заголовка вікна (в bash і zsh – однаково):
 
 ```bash
 function set_win_title(){
@@ -153,23 +173,23 @@ function set_win_title(){
 }
 ```
 
-You can use variables to customize this title (`$USER`, `$HOSTNAME`, and `$PWD` are popular choices).
+Ви можете використовувати змінні для налаштування цього заголовка (`$USER`, `$HOSTNAME`, та `$PWD` – є досить популярними).
 
-In `bash`, set this function to be the precmd starship function:
+У `bash` встановіть цю функцію як функцію precmd у starship:
 
 ```bash
 starship_precmd_user_func="set_win_title"
 ```
 
-In `zsh`, add this to the `precmd_functions` array:
+У `zsh` додайте наступне до масиву `precmd_functions`:
 
 ```bash
 precmd_functions+=(set_win_title)
 ```
 
-If you like the result, add these lines to your shell configuration file (`~/.bashrc` or `~/.zshrc`) to make it permanent.
+Якщо вам подобається результат, додайте ці рядки до файлу налаштування оболонки (`~/.bashrc` чи `~/.zshrc`), щоб зробити його постійним.
 
-For example, if you want to display your current directory in your terminal tab title, add the following snippet to your `~/.bashrc` or `~/.zshrc`:
+Наприклад, якщо ви хочете показати вашу поточну теку у заголовку вкладці термінала, додайте наступний сніпет до вашого `~/.bashrc` або `~/.zshrc`:
 
 ```bash
 function set_win_title(){
@@ -178,7 +198,7 @@ function set_win_title(){
 starship_precmd_user_func="set_win_title"
 ```
 
-For Cmd, you can change the window title using the `starship_preprompt_user_func` function.
+Для Cmd, ви можете змінити заголовок вікна за допомогою функції `starship_preprompt_user_func`.
 
 ```lua
 function starship_preprompt_user_func(prompt)
@@ -188,71 +208,71 @@ end
 load(io.popen('starship init cmd'):read("*a"))()
 ```
 
-You can also set a similar output with PowerShell by creating a function named `Invoke-Starship-PreCommand`.
+Ви також можете встановити подібний вивід у PowerShell, створивши функцію з назвою `Invoke-Starship-PreCommand`.
 
 ```powershell
 # edit $PROFILE
 function Invoke-Starship-PreCommand {
-  $host.ui.Write("`e]0; PS> $env:USERNAME@$env:COMPUTERNAME`: $pwd `a")
+  $host.ui.RawUI.WindowTitle = "$env:USERNAME@$env:COMPUTERNAME`: $pwd `a"
 }
 
 Invoke-Expression (&starship init powershell)
 ```
 
-## Enable Right Prompt
+## Командний рядок праворуч
 
-Some shells support a right prompt which renders on the same line as the input. Starship can set the content of the right prompt using the `right_format` option. Any module that can be used in `format` is also supported in `right_format`. The `$all` variable will only contain modules not explicitly used in either `format` or `right_format`.
+Деякі оболонки підтримують вивід командного рядка праворуч. Starship може встановити вміст правої частини командного рядка за допомогою параметра `right_format`. Будь-який модуль, який можна використовувати у `format`, також підтримується у `right_format`. Змінна `$all` міститиме лише модулі, які явно не використовується, а ні в `format`, а ні в `right_format`.
 
-Note: The right prompt is a single line following the input location. To right align modules above the input line in a multi-line prompt, see the [`fill` module](/config/#fill).
+Примітка: командний рядок праворуч – це один рядок, що знаходиться праворуч у рядку вводу. Щоб вирівняти модулі праворуч над рядком введення в багаторядковому запиті, перегляньте [модуль `fill`](../config/#fill).
 
-`right_format` is currently supported for the following shells: elvish, fish, zsh, xonsh, cmd, nushell.
+`right_format` наразі підтримується для таких оболонок: elvish, fish, zsh, xonsh, cmd, nushell, bash.
 
-Note: Nushell 0.71.0 or later is required
+Примітка: фреймворк [Ble.sh](https://github.com/akinomyoga/ble.sh) v0.4 або вище має бути встановлений для того, щоб використовувати розташування командного рядка в bash праворуч.
 
-### Example
+### Приклад
 
 ```toml
 # ~/.config/starship.toml
 
-# A minimal left prompt
+# Мінімум ліворуч
 format = """$character"""
 
-# move the rest of the prompt to the right
+# решту командного рядка перенесемо праворуч
 right_format = """$all"""
 ```
 
-Produces a prompt like the following:
+Отримаємо командний рядок наступного виду:
 
 ```
 ▶                                   starship on  rprompt [!] is 📦 v0.57.0 via 🦀 v1.54.0 took 17s
 ```
 
-## Continuation Prompt
+## Подовжений ввід
 
-Some shells support a continuation prompt along with the normal prompt. This prompt is rendered instead of the normal prompt when the user has entered an incomplete statement (such as a single left parenthesis or quote).
+Деякі оболонки підтримують подовження вводу так само як і  звичайний ввід в командний рядок. Такий ввід буде показаний замість звичайного, колі користувач ввів символ продовження вводу (наприклад одну ліву дужку чи лапку).
 
-Starship can set the continuation prompt using the `continuation_prompt` option. The default prompt is `"[∙](bright-black) "`.
+У Starship можна встановити показ продовженого вводу за допомогою параметра `continuation_prompt`. Стандартний командний рядок — `'[∙](bright-black) '`.
 
-Note: `continuation_prompt` should be set to a literal string without any variables.
+Примітка: `continuation_prompt` слід встановити на літеральний рядок без жодних змінних.
 
-Note: Continuation prompts are only available in the following shells:
+Примітка: Подовжений ввід доступний лише для наступних оболонок:
 
 - `bash`
 - `zsh`
 - `PowerShell`
 
-### Example
+### Приклад
 
 ```toml
 # ~/.config/starship.toml
 
-# A continuation prompt that displays two filled in arrows
-continuation_prompt = "▶▶"
+# Подовжений ввід позначається двома стрілками
+continuation_prompt = '▶▶ '
 ```
 
-## Style Strings
+## Рядки стилів
 
-Style strings are a list of words, separated by whitespace. The words are not case sensitive (i.e. `bold` and `BoLd` are considered the same string). Each word can be one of the following:
+Рядки стилю — список слів, розділених пробілами. Слова не чутливі до регістру (наприклад `bold` і `BoLd` вважаються однаковими). Кожне слово може бути одним з наступних:
 
 - `bold`
 - `italic`
@@ -267,20 +287,20 @@ Style strings are a list of words, separated by whitespace. The words are not ca
 - `<color>`
 - `none`
 
-where `<color>` is a color specifier (discussed below). `fg:<color>` and `<color>` currently do the same thing, though this may change in the future. `inverted` swaps the background and foreground colors. The order of words in the string does not matter.
+де `<color>` є специфікацією кольору (обговорюється нижче). `fg:<color>` та `<color>` на цей час роблять те саме, хоча це може змінитися в майбутньому. `<color>` може також мати значення `prev_fg` або `prev_bg`, які обчислюють колір тексту або фону попереднього елемента відповідно, якщо він доступний, або `none` у протилежному випадку. `inverted` замінює кольори тла і тексту. Порядок слів у рядку не має значення.
 
-The `none` token overrides all other tokens in a string if it is not part of a `bg:` specifier, so that e.g. `fg:red none fg:blue` will still create a string with no styling. `bg:none` sets the background to the default color so `fg:red bg:none` is equivalent to `red` or `fg:red` and `bg:green fg:red bg:none` is also equivalent to `fg:red` or `red`. It may become an error to use `none` in conjunction with other tokens in the future.
+Токен `none` перевизначає всі інші токени у рядку, якщо він не є частиною `bg:`, так `fg:red none fg:blue` все одно створить рядок без стилізування. `bg:none` встановлює типовий колір фону, таким чином, `fg:red bg:none` еквівалентно `red` або `fg:red`, а `bg:green fg:red fg:none` також еквівалентно `fg:red` або `red`. Використання `none` у поєднанні з іншими токенами в майбутньому може стати помилкою.
 
-A color specifier can be one of the following:
+Визначення кольору може бути одним з наступних:
 
-- One of the standard terminal colors: `black`, `red`, `green`, `blue`, `yellow`, `purple`, `cyan`, `white`. You can optionally prefix these with `bright-` to get the bright version (e.g. `bright-white`).
-- A `#` followed by a six-digit hexadecimal number. This specifies an [RGB color hex code](https://www.w3schools.com/colors/colors_hexadecimal.asp).
-- A number between 0-255. This specifies an [8-bit ANSI Color Code](https://i.stack.imgur.com/KTSQa.png).
+- Один за стандартних кольорів термінала: `black`, `red`, `green`, `blue`, `yellow`, `purple`, `cyan`, `white`. Ви можете опціонально додавати префікс `bright-`, щоб отримати яскраву версію (наприклад, `bright-white`).
+- `#` за яким йде шестизначний шістнадцятковий код кольору. Цей код вказує на [шістнадцятковий код RGB](https://www.w3schools.com/colors/colors_hexadecimal.asp).
+- Число від 0-255. Число визначає [8-бітний код кольору ANSI](https://i.stack.imgur.com/KTSQa.png).
 
-If multiple colors are specified for foreground/background, the last one in the string will take priority.
+Якщо для тексту та фону задано кілька кольорів, останній в рядку буде мати вищий пріоритет.
 
-Not every style string will be displayed correctly by every terminal. In particular, the following known quirks exist:
+Не кожен рядок стилю буде правильно показуватись у кожному терміналі. Зокрема, існують такі відомі примхи:
 
-- Many terminals disable support for `blink` by default
-- `hidden` is [not supported on iTerm](https://gitlab.com/gnachman/iterm2/-/issues/4564).
-- `strikethrough` is not supported by the default macOS Terminal.app
+- Багато терміналів стандартно вмикають підтримку `blink`.
+- `hidden` [не підтримується в iTerm](https://gitlab.com/gnachman/iterm2/-/issues/4564).
+- `strikethrough` не підтримується стандартно в macOS Terminal.app.

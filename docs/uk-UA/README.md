@@ -1,67 +1,84 @@
 ---
-home: true
-heroImage: /logo.svg
-heroText:
-tagline: Простий, супер швидкий та безмежно адаптивний командний рядок для будь-якої оболонки!
-actionText: Get Started →
-actionLink: ./guide/
+layout: home
+hero:
+  image: /logo.svg
+  text:
+  tagline: Простий, супер швидкий та безмежно адаптивний командний рядок для будь-якої оболонки!
+  actions:
+    - 
+      theme: brand
+      text: Початок роботи →
+      link: ./guide/
 features:
   - 
-    title: Compatibility First
-    details: Works on the most common shells on the most common operating systems. Use it everywhere!
+    title: Сумісність на першому місці
+    details: Працює з більшістю оболонок у всіх популярних операційних системах. Можна використовувати будь-де!
   - 
-    title: Rust-Powered
-    details: Brings the best-in-class speed and safety of Rust, to make your prompt as quick and reliable as possible.
+    title: Rust під капотом
+    details: Використовує найкращу в класі швидкість та безпеку застосунків створених за допомогою Rust, що робить ваш командний рядок швидким та надійним.
   - 
-    title: Customizable
-    details: Every little detail is customizable to your liking, to make this prompt as minimal or feature-rich as you'd like it to be.
-footer: ISC Licensed | Copyright © 2019-present Starship Contributors
+    title: Персоналізація
+    details: Кожна дрібничка налаштовується відповідно до ваших потреб, щоб зробити командний рядок аскетичним чи багатофункціональним, таким, яким ви б хотіли б його бачити.
+footer: Ліцензія ISC | Авторське право © 2019-по сьогодні Учасники Starship
 #Used for the description meta tag, for SEO
 metaTitle: "Starship: Cross-Shell Prompt"
-description: Starship is the minimal, blazing fast, and extremely customizable prompt for any shell! Shows the information you need, while staying sleek and minimal. Quick installation available for Bash, Fish, ZSH, Ion, Tcsh, Elvish, Nu, Xonsh, Cmd, and PowerShell.
+description: Простий, супер швидкий та безмежно адаптивний командний рядок для будь-якої оболонки! Показує потрібну інформацію залишаючись блискучим та мінімальним. Швидке встановлення доступне для Bash, Fish, ZSH, Ion, Tcsh, Elvish, Nu, Xonsh, Cmd і PowerShell.
 ---
 
-<div class="center">
-  <video class="demo-video" muted autoplay loop playsinline>
-    <source src="/demo.webm" type="video/webm">
-    <source src="/demo.mp4" type="video/mp4">
-  </video>
-</div>
+<script setup>
+import { onMounted } from 'vue'
 
-### Передумови
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.has('uwu') || urlParams.has('kawaii')) {
+    const img = document.querySelector('.VPHero .VPImage.image-src')
+    img.classList.add('uwu')
+    img.src = '/logo-uwu.png'
+    img.alt = 'Kawaii Starship Logo by @sawaratsuki1004'
+  }
+})
+</script>
 
-- A [Nerd Font](https://www.nerdfonts.com/) installed and enabled in your terminal.
+<video class="demo-video" muted autoplay loop playsinline>
+  <source src="/demo.webm" type="video/webm">
+  <source src="/demo.mp4" type="video/mp4">
+</video>
 
-### Quick Install
+### Вимоги
 
-1. Install the **starship** binary:
+- A Встановлений та увімкнений шрифт [Nerd Font](https://www.nerdfonts.com/) у вашому терміналі.
+
+### Швидке встановлення
+
+1. Встановіть **starship**:
 
 
-   #### Install Latest Version
+   #### Встановлення останньої версії
 
-   With Shell:
+   З оболонки:
 
    ```sh
    curl -sS https://starship.rs/install.sh | sh
    ```
 
-   To update the Starship itself, rerun the above script. It will replace the current version without touching Starship's configuration.
+   Для оновлення Starship перезапустіть команду вказану вище. Це допоможе замінити поточну версію не чіпаючи налаштувань Starship.
 
 
-   #### Install via Package Manager
+   #### Встановлення за допомогою пакетних менеджерів
 
-   With [Homebrew](https://brew.sh/):
+   [Homebrew](https://brew.sh/):
 
    ```sh
    brew install starship
    ```
-   With [Winget](https://github.com/microsoft/winget-cli):
+
+   [Winget](https://github.com/microsoft/winget-cli):
 
    ```powershell
    winget install starship
    ```
 
-1. Add the init script to your shell's config file:
+1. Додайте init скрипт до конфігураційного файлу оболонки:
 
 
    #### Bash
@@ -99,7 +116,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Powershell
 
-   Add the following to the end of `Microsoft.PowerShell_profile.ps1`. You can check the location of this file by querying the `$PROFILE` variable in PowerShell. Typically the path is `~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1` or `~/.config/powershell/Microsoft.PowerShell_profile.ps1` on -Nix.
+   Додайте наступний рядок в кінець `Microsoft.PowerShell_profile.ps1`. Ви можете перевірити розташування цього файлу, звернувшись до змінної `$PROFILE` у PowerShell. Зазвичай це `~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1` або `~/.config/powershell/Microsoft.PowerShell_profile.ps1` у -Nix.
 
    ```sh
    Invoke-Expression (&starship init powershell)
@@ -121,7 +138,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    ::: warning
 
-   Only elvish v0.18 or higher is supported.
+   Підтримуються лише elv0.18 або вище.
 
    :::
 
@@ -149,21 +166,17 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    ::: warning
 
-   This will change in the future. Only Nushell v0.61+ is supported.
+   Це зміниться в майбутньому. Only Nushell v0.96+ is supported.
 
    :::
 
-   Add the following to to the end of your Nushell env file (find it by running `$nu.env-path` in Nushell):
-   ```sh
-   mkdir ~/.cache/starship
-   starship init nu | save ~/.cache/starship/init.nu
-   ```
-
-   Додайте наступний рядок наприкінці Вашої конфігурації Nushell (знайдіть її виконавши `$nu.config-path`):
+   Add the following to the end of your Nushell configuration (find it by running `$nu.config-path` in Nushell):
 
    ```sh
-   source ~/.cache/starship/init.nu
+   mkdir ($nu.data-dir | path join "vendor/autoload")
+   starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
    ```
+
 
    #### Xonsh
 
@@ -178,7 +191,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Cmd
 
-   Вам потрібно використовувати [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) разом з Cmd. Add the following to a file `starship.lua` and place this file in Clink scripts directory:
+   Вам потрібно використовувати [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) разом з Cmd. Додайте наступне у файл `starship.lua` і розмістіть цей файл у теці скриптів Cline:
 
    ```lua
    -- starship.lua

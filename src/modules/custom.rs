@@ -1,9 +1,9 @@
 use std::env;
+use std::fmt::{self, Debug};
 use std::io::Write;
 use std::path::Path;
 use std::process::{Command, Stdio};
 use std::time::Duration;
-use std::time::Instant;
 
 use process_control::{ChildExt, Control, Output};
 
@@ -22,11 +22,11 @@ use crate::{
 ///
 /// Finally, the content of the module itself is also set by a command.
 pub fn module<'a>(name: &str, context: &'a Context) -> Option<Module<'a>> {
-    let start: Instant = Instant::now();
-    let toml_config = context.config.get_custom_module_config(name).expect(
-        "modules::custom::module should only be called after ensuring that the module exists",
-    );
+    let toml_config = get_config(name, context)?;
     let config = CustomConfig::load(toml_config);
+    if config.disabled {
+        return None;
+    }
 
     if let Some(os) = config.os {
         if os != env::consts::OS && !(os == "unix" && cfg!(unix)) {
@@ -34,7 +34,12 @@ pub fn module<'a>(name: &str, context: &'a Context) -> Option<Module<'a>> {
         }
     }
 
-    let mut module = Module::new(name, config.description, Some(toml_config));
+    if config.require_repo && context.get_repo().is_err() {
+        return None;
+    }
+
+    // Note: Forward config if `Module` ends up needing `config`
+    let mut module = Module::new(&format!("custom.{name}"), config.description, None);
 
     let mut is_match = context
         .try_begin_scan()?
@@ -48,46 +53,80 @@ pub fn module<'a>(name: &str, context: &'a Context) -> Option<Module<'a>> {
             Either::First(b) => b,
             Either::Second(s) => exec_when(s, &config, context),
         };
+
+        if !is_match {
+            return None;
+        }
     }
 
-    if is_match {
-        let parsed = StringFormatter::new(config.format).and_then(|formatter| {
-            formatter
-                .map_meta(|var, _| match var {
-                    "symbol" => Some(config.symbol),
-                    _ => None,
-                })
-                .map_style(|variable| match variable {
-                    "style" => Some(Ok(config.style)),
-                    _ => None,
-                })
-                .map_no_escaping(|variable| match variable {
-                    "output" => {
-                        let output = exec_command(config.command, context, &config)?;
-                        let trimmed = output.trim();
+    let variables_closure = |variable: &str| match variable {
+        "output" => {
+            let output = exec_command(config.command, context, &config)?;
+            let trimmed = output.trim();
 
-                        if trimmed.is_empty() {
-                            None
-                        } else {
-                            Some(Ok(trimmed.to_string()))
-                        }
-                    }
-                    _ => None,
-                })
-                .parse(None, Some(context))
-        });
-
-        match parsed {
-            Ok(segments) => module.set_segments(segments),
-            Err(error) => {
-                log::warn!("Error in module `custom.{}`:\n{}", name, error);
+            if trimmed.is_empty() {
+                None
+            } else {
+                Some(Ok(trimmed.to_string()))
             }
-        };
-    }
-    let elapsed = start.elapsed();
-    log::trace!("Took {:?} to compute custom module {:?}", elapsed, name);
-    module.duration = elapsed;
+        }
+        _ => None,
+    };
+
+    let parsed = StringFormatter::new(config.format).and_then(|mut formatter| {
+        formatter = formatter
+            .map_meta(|var, _| match var {
+                "symbol" => Some(config.symbol),
+                _ => None,
+            })
+            .map_style(|variable| match variable {
+                "style" => Some(Ok(config.style)),
+                _ => None,
+            });
+
+        if config.unsafe_no_escape {
+            formatter = formatter.map_no_escaping(variables_closure)
+        } else {
+            formatter = formatter.map(variables_closure)
+        }
+
+        formatter.parse(None, Some(context))
+    });
+
+    match parsed {
+        Ok(segments) => module.set_segments(segments),
+        Err(error) => {
+            log::warn!("Error in module `custom.{}`:\n{}", name, error);
+        }
+    };
     Some(module)
+}
+
+/// Gets the TOML config for the custom module, handling the case where the module is not defined
+fn get_config<'a>(module_name: &str, context: &'a Context<'a>) -> Option<&'a toml::Value> {
+    struct DebugCustomModules<'tmp>(&'tmp toml::value::Table);
+
+    impl Debug for DebugCustomModules<'_> {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            f.debug_list().entries(self.0.keys()).finish()
+        }
+    }
+
+    let config = context.config.get_custom_module_config(module_name);
+
+    if config.is_some() {
+        return config;
+    } else if let Some(modules) = context.config.get_custom_modules() {
+        log::debug!(
+                "top level format contains custom module {module_name:?}, but no configuration was provided. Configuration for the following modules were provided: {:?}",
+                DebugCustomModules(modules),
+        );
+    } else {
+        log::debug!(
+            "top level format contains custom module {module_name:?}, but no configuration was provided.",
+        );
+    };
+    None
 }
 
 /// Return the invoking shell, using `shell` and fallbacking in order to `STARSHIP_SHELL` and "sh"/"cmd"
@@ -213,6 +252,11 @@ fn exec_when(cmd: &str, config: &CustomConfig, context: &Context) -> bool {
 fn exec_command(cmd: &str, context: &Context, config: &CustomConfig) -> Option<String> {
     log::trace!("Running '{cmd}'");
 
+    #[cfg(test)]
+    if cmd == "__starship_to_be_escaped" {
+        return Some("`to_be_escaped`".to_string());
+    }
+
     if let Some(output) = shell_command(cmd, config, context) {
         if !output.status.success() {
             log::trace!("Non-zero exit code '{:?}'", output.status.code());
@@ -267,7 +311,8 @@ fn handle_shell(command: &mut Command, shell: &str, shell_args: &[&str]) -> bool
 mod tests {
     use super::*;
 
-    use crate::test::ModuleRenderer;
+    use crate::context::Shell;
+    use crate::test::{fixture_repo, FixtureProvider, ModuleRenderer};
     use nu_ansi_term::Color;
     use std::fs::File;
     use std::io;
@@ -676,6 +721,99 @@ mod tests {
             })
             .collect();
         let expected = Some("test".to_string());
+        assert_eq!(expected, actual);
+
+        dir.close()
+    }
+
+    #[test]
+    fn disabled() {
+        let actual = ModuleRenderer::new("custom.test")
+            .config(toml::toml! {
+                [custom.test]
+                disabled = true
+                when = true
+                format = "test"
+            })
+            .collect();
+        let expected = None;
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn test_render_require_repo_not_in() -> io::Result<()> {
+        let repo_dir = tempfile::tempdir()?;
+
+        let actual = ModuleRenderer::new("custom.test")
+            .path(repo_dir.path())
+            .config(toml::toml! {
+                [custom.test]
+                when = true
+                require_repo = true
+                format = "test"
+            })
+            .collect();
+        let expected = None;
+        assert_eq!(expected, actual);
+        repo_dir.close()
+    }
+
+    #[test]
+    fn test_render_require_repo_in() -> io::Result<()> {
+        let repo_dir = fixture_repo(FixtureProvider::Git)?;
+
+        let actual = ModuleRenderer::new("custom.test")
+            .path(repo_dir.path())
+            .config(toml::toml! {
+                [custom.test]
+                when = true
+                require_repo = true
+                format = "test"
+            })
+            .collect();
+        let expected = Some("test".to_string());
+        assert_eq!(expected, actual);
+        repo_dir.close()
+    }
+
+    #[test]
+    fn output_is_escaped() -> io::Result<()> {
+        let dir = tempfile::tempdir()?;
+
+        let actual = ModuleRenderer::new("custom.test")
+            .path(dir.path())
+            .config(toml::toml! {
+                [custom.test]
+                format = "$output"
+                command = "__starship_to_be_escaped"
+                when = true
+                ignore_timeout = true
+            })
+            .shell(Shell::Bash)
+            .collect();
+        let expected = Some("\\`to_be_escaped\\`".to_string());
+        assert_eq!(expected, actual);
+
+        dir.close()
+    }
+
+    #[test]
+    fn unsafe_no_escape() -> io::Result<()> {
+        let dir = tempfile::tempdir()?;
+
+        let actual = ModuleRenderer::new("custom.test")
+            .path(dir.path())
+            .config(toml::toml! {
+                [custom.test]
+                format = "$output"
+                command = "__starship_to_be_escaped"
+                when = true
+                ignore_timeout = true
+                unsafe_no_escape = true
+            })
+            .shell(Shell::Bash)
+            .collect();
+        let expected = Some("`to_be_escaped`".to_string());
         assert_eq!(expected, actual);
 
         dir.close()

@@ -19,7 +19,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
             "\"truncation_length\" should be a positive value, found {}",
             config.truncation_length
         );
-        std::usize::MAX
+        usize::MAX
     } else {
         config.truncation_length as usize
     };
@@ -30,13 +30,13 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
         return None;
     }
 
-    let branch_name = repo.branch.as_ref()?;
+    let branch_name = repo.branch.as_deref().unwrap_or("HEAD");
     let mut graphemes: Vec<&str> = branch_name.graphemes(true).collect();
 
     if config
         .ignore_branches
         .iter()
-        .any(|ignored| branch_name.eq(ignored))
+        .any(|&ignored| branch_name.eq(ignored))
     {
         return None;
     }
@@ -204,12 +204,12 @@ mod tests {
 
     #[test]
     fn test_hindi_truncation() -> io::Result<()> {
-        test_truncate_length("नमस्ते", 3, "नमस्", "…")
+        test_truncate_length("नमस्ते", 2, "नम", "…")
     }
 
     #[test]
     fn test_hindi_truncation2() -> io::Result<()> {
-        test_truncate_length("नमस्त", 3, "नमस्", "…")
+        test_truncate_length("नमस्त", 2, "नम", "…")
     }
 
     #[test]
@@ -428,6 +428,29 @@ mod tests {
         remote_dir.close()
     }
 
+    #[test]
+    fn test_branch_fallback_on_detached() -> io::Result<()> {
+        let repo_dir = fixture_repo(FixtureProvider::Git)?;
+
+        create_command("git")?
+            .args(["checkout", "@~1"])
+            .current_dir(repo_dir.path())
+            .output()?;
+
+        let actual = ModuleRenderer::new("git_branch")
+            .config(toml::toml! {
+                [git_branch]
+                format = "$branch"
+            })
+            .path(repo_dir.path())
+            .collect();
+
+        let expected = Some("HEAD".into());
+
+        assert_eq!(expected, actual);
+        repo_dir.close()
+    }
+
     // This test is not possible until we switch to `git status --porcelain`
     // where we can mock the env for the specific git process. This is because
     // git2 does not care about our mocking and when we set the real `GIT_DIR`
@@ -491,10 +514,9 @@ mod tests {
                 toml::from_str(&format!(
                     "
                     [git_branch]
-                        truncation_length = {}
-                        {}
-                ",
-                    truncate_length, config_options
+                        truncation_length = {truncate_length}
+                        {config_options}
+                "
                 ))
                 .unwrap(),
             )
@@ -530,10 +552,9 @@ mod tests {
                 toml::from_str(&format!(
                     r#"
                     [git_branch]
-                        format = "{}"
-                        {}
-                "#,
-                    format, config_options
+                        format = "{format}"
+                        {config_options}
+                "#
                 ))
                 .unwrap(),
             )

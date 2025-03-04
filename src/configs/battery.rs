@@ -19,14 +19,14 @@ pub struct BatteryConfig<'a> {
     pub format: &'a str,
 }
 
-impl<'a> Default for BatteryConfig<'a> {
+impl Default for BatteryConfig<'_> {
     fn default() -> Self {
         BatteryConfig {
-            full_symbol: " ",
-            charging_symbol: " ",
-            discharging_symbol: " ",
-            unknown_symbol: " ",
-            empty_symbol: " ",
+            full_symbol: "󰁹 ",
+            charging_symbol: "󰂄 ",
+            discharging_symbol: "󰂃 ",
+            unknown_symbol: "󰁽 ",
+            empty_symbol: "󰂎 ",
             format: "[$symbol$percentage]($style) ",
             display: vec![BatteryDisplayConfig::default()],
             disabled: false,
@@ -48,7 +48,7 @@ pub struct BatteryDisplayConfig<'a> {
     pub discharging_symbol: Option<&'a str>,
 }
 
-impl<'a> Default for BatteryDisplayConfig<'a> {
+impl Default for BatteryDisplayConfig<'_> {
     fn default() -> Self {
         BatteryDisplayConfig {
             threshold: 10,

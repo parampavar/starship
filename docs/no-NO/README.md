@@ -1,10 +1,14 @@
 ---
-home: true
-heroImage: /logo.svg
-heroText:
-tagline: The minimal, blazing-fast, and infinitely customizable prompt for any shell!
-actionText: Get Started →
-actionLink: ./guide/
+layout: home
+hero:
+  image: /logo.svg
+  text:
+  tagline: Minimal, blendende rask og uendelig tilpasningsdyktig ledetekst for alle skall!
+  actions:
+    - 
+      theme: brand
+      text: Get Started →
+      link: ./guide/
 features:
   - 
     title: Compatibility First
@@ -21,14 +25,26 @@ metaTitle: "Starship: Cross-Shell Prompt"
 description: Starship is the minimal, blazing fast, and extremely customizable prompt for any shell! Shows the information you need, while staying sleek and minimal. Quick installation available for Bash, Fish, ZSH, Ion, Tcsh, Elvish, Nu, Xonsh, Cmd, and PowerShell.
 ---
 
-<div class="center">
-  <video class="demo-video" muted autoplay loop playsinline>
-    <source src="/demo.webm" type="video/webm">
-    <source src="/demo.mp4" type="video/mp4">
-  </video>
-</div>
+<script setup>
+import { onMounted } from 'vue'
 
-### Prerequisites
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.has('uwu') || urlParams.has('kawaii')) {
+    const img = document.querySelector('.VPHero .VPImage.image-src')
+    img.classList.add('uwu')
+    img.src = '/logo-uwu.png'
+    img.alt = 'Kawaii Starship Logo by @sawaratsuki1004'
+  }
+})
+</script>
+
+<video class="demo-video" muted autoplay loop playsinline>
+  <source src="/demo.webm" type="video/webm">
+  <source src="/demo.mp4" type="video/mp4">
+</video>
+
+### Nødvendig forutsetninger
 
 - A [Nerd Font](https://www.nerdfonts.com/) installed and enabled in your terminal.
 
@@ -55,6 +71,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
    ```sh
    brew install starship
    ```
+
    With [Winget](https://github.com/microsoft/winget-cli):
 
    ```powershell
@@ -66,7 +83,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Bash
 
-   Add the following to the end of `~/.bashrc`:
+   Legg til følgende på slutten av `~/.bashrc`:
 
    ```sh
    # ~/.bashrc
@@ -77,7 +94,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Fish
 
-   Add the following to the end of `~/.config/fish/config.fish`:
+   Legg til følgende i slutten av `~/.config/fish/config.fish`:
 
    ```sh
    # ~/.config/fish/config.fish
@@ -108,7 +125,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Ion
 
-   Add the following to the end of `~/.config/ion/initrc`:
+   Legg til følgende i slutten av `~/.config/ion/initrc`:
 
    ```sh
    # ~/.config/ion/initrc
@@ -117,7 +134,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
    ```
 
 
-   #### Elvish
+   #### Elvisk
 
    ::: warning
 
@@ -125,7 +142,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    :::
 
-   Add the following to the end of `~/.elvish/rc.elv`:
+   Legg til følgende i slutten av  `~/.elvish/rc.elv`:
 
    ```sh
    # ~/.elvish/rc.elv
@@ -136,7 +153,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Tcsh
 
-   Add the following to the end of `~/.tcshrc`:
+   Legg til følgende i slutten av `~/.tcshrc`:
 
    ```sh
    # ~/.tcshrc
@@ -149,21 +166,17 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    ::: warning
 
-   This will change in the future. Only Nushell v0.61+ is supported.
+   This will change in the future. Only Nushell v0.96+ is supported.
 
    :::
 
-   Add the following to to the end of your Nushell env file (find it by running `$nu.env-path` in Nushell):
-   ```sh
-   mkdir ~/.cache/starship
-   starship init nu | save ~/.cache/starship/init.nu
-   ```
-
-   And add the following to the end of your Nushell configuration (find it by running `$nu.config-path`):
+   Add the following to the end of your Nushell configuration (find it by running `$nu.config-path` in Nushell):
 
    ```sh
-   source ~/.cache/starship/init.nu
+   mkdir ($nu.data-dir | path join "vendor/autoload")
+   starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
    ```
+
 
    #### Xonsh
 
@@ -178,7 +191,7 @@ description: Starship is the minimal, blazing fast, and extremely customizable p
 
    #### Cmd
 
-   You need to use [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) with Cmd. Add the following to a file `starship.lua` and place this file in Clink scripts directory:
+   Du må bruke [Clink](https://chrisant996.github.io/clink/clink.html) (v1.2.30+) med Cmd. Add the following to a file `starship.lua` and place this file in Clink scripts directory:
 
    ```lua
    -- starship.lua

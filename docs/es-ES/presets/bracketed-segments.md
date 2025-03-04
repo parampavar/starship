@@ -1,4 +1,4 @@
-[Volver a Preajustes](./README.md#bracketed-segments)
+[Volver a Preajustes](./#bracketed-segments)
 
 # Preajuste Segmentos entre Corchetes
 
@@ -9,9 +9,9 @@ Este preajuste cambia el formato de todos los módulos incorporados para mostrar
 ### Configuración
 
 ```sh
-starship preset bracketed-segments > ~/.config/starship.toml
+starship preset bracketed-segments -o ~/.config/starship.toml
 ```
 
-[Clic para descargar TOML](/presets/toml/bracketed-segments.toml)
+[Click to download TOML](/presets/toml/bracketed-segments.toml){download}
 
-<<< @/.vuepress/public/presets/toml/bracketed-segments.toml
+<<< @/public/presets/toml/bracketed-segments.toml
